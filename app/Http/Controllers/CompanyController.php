@@ -42,31 +42,33 @@ class CompanyController extends Controller
             $file->move($path, $filename);
         }
 
-            $opportunity = new Opportunity;
-            $opportunity->user_id = Auth::id();
-            $opportunity->title = $request->input('title');
-            $opportunity->category = $request->input('category');
-            $opportunity->description = $request->input('description');
-            $opportunity->img_url = url($path . '/' . $filename);
-            $opportunity->status = 'Pending'; // default status when created
-            $opportunity->closing_date = now()->addDays(30); // assuming 30 days is the required period
-            $opportunity->save();
+        $opportunity = new Opportunity;
+        $opportunity->user_id = Auth::id();
+        $opportunity->title = $request->input('title');
+        $opportunity->category = $request->input('category');
+        $opportunity->description = $request->input('description');
+        $opportunity->img_url = url($path . '/' . $filename);
+        $opportunity->status = 'Pending'; // default status when created
+        $opportunity->closing_date = now()->addDays(30); // assuming 30 days is the required period
+        $opportunity->save();
 
         return redirect()->route('company_home')->with('message', 'Opportunity has been Successfully Created!!');
     }
 
+
+
     // publish opportunity
-    public function publishOpportunity(Request $request, $id)
+    public function publish($id)
     {
-        $opportunity = Opportunity::where('user_id', Auth::id())->find($id);
+        $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
+
         if (!$opportunity) {
-            return redirect()->back()->with('error', 'Opportunity not found!');
+            return redirect()->back()->withErrors('Opportunity not found.');
         }
 
-        $opportunity->status = 'Published';
+        $opportunity->status = trim('Published');
         $opportunity->save();
 
-        return redirect()->route('company_home')->with('message', 'Opportunity has been published!');
+        return redirect()->route('company_home')->with('message', 'Opportunity has been successfully published!');
     }
-
 }

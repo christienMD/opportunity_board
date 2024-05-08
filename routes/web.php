@@ -26,5 +26,5 @@ Route::post('/opportunities', [CompanyController::class, 'save'])->name('company
 
 Route::get('/opportunities/create', [CompanyController::class, 'create'])->name('company.create'); // show the create form
 
-Route::post('/opportunities/{id}/publish', [CompanyController::class, 'publishOpportunity'])->name('publishOpportunity');
+Route::get('/opportunities/{id}/publish', [CompanyController::class, 'publish'])->name('publish_opportunity'); // 
 
