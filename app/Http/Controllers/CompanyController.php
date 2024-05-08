@@ -72,4 +72,18 @@ class CompanyController extends Controller
 
         return redirect()->route('company_home')->with('message', 'Opportunity has been successfully published!');
     }
+
+    // delete opportunities
+    public function delete($id)
+    {
+        $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
+
+        if ($opportunity) {
+            $opportunity->delete();
+            return redirect()->route('company_home')->with('message', 'Opportunity successfully deleted.');
+        } else {
+            return redirect()->back()->withErrors('Opportunity not found.');
+        }
+    }
+
 }
