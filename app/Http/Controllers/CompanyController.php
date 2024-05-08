@@ -67,6 +67,7 @@ class CompanyController extends Controller
         }
 
         $opportunity->status = trim('Published');
+        $opportunity->published_at = now();
         $opportunity->save();
 
         return redirect()->route('company_home')->with('message', 'Opportunity has been successfully published!');

@@ -1,5 +1,5 @@
 <tr>
   <td colspan="2">
-    <div class="alert alert-error">No Opportunities Found Found</div>
+    <div class="alert alert-dark">No Opportunities Found, Start Creating Opportunities</div>
   </td>
 </tr>
