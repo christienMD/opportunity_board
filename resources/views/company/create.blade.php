@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta title="viewport"="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible"="ie=edge">
+    <script src="//unpkg.com/alpinejs" defer></script>
      @vite('resources/css/app.css')
     <title>Company - Create</title>
 </head>
@@ -12,7 +13,7 @@
     <div class="mb-6">
         <div class="w-full flex flex-col items-center justify-center mt-6">
         <h1 class="text-xl font-bold text-center py-4">Create A New Opportunity</h1>
-       <form method="POST" action="{{ route('company.save') }}" class="mb-2 w-80 max-w-screen-lg sm:w-96" enctype="multipart/form-data">
+       <form method="POST" x-data="{ isCreating: false }" action="{{ route('company.save') }}" class="mb-2 w-80 max-w-screen-lg sm:w-96" enctype="multipart/form-data">
           @csrf
         <div class="sm:col-span-3">
 
@@ -80,7 +81,10 @@
         </div>
 
          {{-- submit --}}
-          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create</button>
+          <button @click="isCreating = true" type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                 <span x-cloak x-show="isCreating" class="pe-1">Create Opportunity</span>
+                 <span x-cloak x-show="isCreating" class="loading loading-dots loading-md"></span>
+          </button>
 
         </div>
        </form>
@@ -105,6 +109,8 @@
             }
       </script>
 
-
+<style>
+    [x-cloak] { display: none !important; }
+</style>
 </body>
 </html>

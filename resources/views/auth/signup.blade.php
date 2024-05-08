@@ -10,7 +10,7 @@
     </div>
 
       <div class="w-full flex flex-col items-center justify-center">
-       <form method="POST" action="{{ route('auth.store') }}" class="mb-2 w-80 max-w-screen-lg sm:w-96">
+       <form method="POST" action="{{ route('auth.store') }}"  x-data="{ isSingningUp: false }" class="mb-2 w-80 max-w-screen-lg sm:w-96">
          <div class="sm:col-span-3">
              @csrf
          {{-- name --}}
@@ -151,7 +151,10 @@
         </div>
 
          {{-- submit --}}
-         <button type="submit" class="mt-4 w-full rounded-md bg-indigo-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 capitalize">Sign up</button>
+         <button @click="isSingningUp = true" type="submit" class="mt-4 w-full rounded-md bg-indigo-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 capitalize">
+          <span class="pe-1">Sign Up</span>
+          <span x-cloak x-show="isSingningUp" class="loading loading-dots loading-md"></span>
+        </button>
 
         </div>
        </form>
@@ -177,4 +180,7 @@
 });
 </script>
 
+<style>
+    [x-cloak] { display: none !important; }
+</style>
 @endsection

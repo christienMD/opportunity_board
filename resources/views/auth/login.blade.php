@@ -9,7 +9,7 @@
     </div>
 
       <div class="w-full flex flex-col items-center justify-center">
-       <form method="POST" action="{{ route('auth.authenticate') }}" class="mb-2 w-80 max-w-screen-lg sm:w-96" novalidate>
+       <form method="POST" action="{{ route('auth.authenticate') }}" x-data="{ isLoggingIn: false }"  class="mb-2 w-80 max-w-screen-lg sm:w-96" novalidate>
         @csrf
          <div class="sm:col-span-3">
           {{-- email --}}
@@ -50,7 +50,10 @@
 
 
          {{-- submit --}}
-         <button type="submit" class="mt-4 w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 capitalize">LogIn</button>
+         <button @click="isLoggingIn = true" type="submit" class="mt-4 w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 capitalize">
+         <span x-cloak x-show="isLoggingIn" class="pe-1"> LogIn </span>
+         <span x-cloak x-show="isLoggingIn" class="loading loading-dots loading-md"></span>
+        </button>
 
         </div>
        </form>
@@ -59,4 +62,7 @@
        </div>
     </div>
 
+ <style>
+    [x-cloak] { display: none !important; }
+</style>
 @endsection
