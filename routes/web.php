@@ -2,12 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\StudentHomeController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'welcome'])->name('welcome');
-Route::get('/students/home', [StudentHomeController::class, 'home'])->name('student_home');
+Route::get('/students/home', [StudentController::class, 'home'])->name('student_home');
 
 Route::get('/signup', [AuthController::class, 'signup'])->name('auth.signup'); // show the sign up form
 

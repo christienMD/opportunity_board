@@ -151,7 +151,7 @@
         </div>
 
          {{-- submit --}}
-         <button @click="isSingningUp = true" type="submit" class="mt-4 w-full rounded-md bg-indigo-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 capitalize">
+         <button @click="isSingningUp = true" type="submit" class="flex items-center justify-center mt-4 w-full rounded-md bg-indigo-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 capitalize">
           <span class="pe-1">Sign Up</span>
           <span x-cloak x-show="isSingningUp" class="loading loading-dots loading-md"></span>
         </button>

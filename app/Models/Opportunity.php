@@ -13,4 +13,5 @@ class Opportunity extends Model
         'closing_date' => 'datetime',
         'published_at' => 'datetime'
     ];
+   protected $table = 'opportunities';
 }
