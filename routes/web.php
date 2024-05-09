@@ -28,6 +28,12 @@ Route::get('/opportunities/create', [CompanyController::class, 'create'])->name(
 
 Route::get('/opportunities/{id}/publish', [CompanyController::class, 'publish'])->name('publish_opportunity'); // publish opportunity
 
-Route::get('/opportunities/{id}/delete', [CompanyController::class, 'delete'])->name('delete_opportunity');
+Route::get('/opportunities/{id}/delete', [CompanyController::class, 'delete'])->name('delete_opportunity'); // delete an opportunity
+
+Route::get('/opportunities/{opportunityId}/apply', [StudentController::class, 'showApplyForm'])->name('application_form'); /// showing the application form
+
+Route::post('/opportunities/{opportunityId}/apply', [StudentController::class, 'apply'])->name('application.submit');
+
+
 
 
