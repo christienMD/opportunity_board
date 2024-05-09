@@ -11,14 +11,14 @@
 <body>
     {{-- nav bar --}}
    @include('components._student_nav')
-   <div class="flex justify-center p-4 w-full">
+   <div class="flex justify-center p-10 lg:p-5 w-full mb-6">
        @include('components._student_search')
    </div>
-   <div class="container mx-auto grid grid-cols-12">
-      <div class="col-span-6">
+   <div class="container mx-auto grid grid-cols-12 p-2">
+      <div class="col-span-12 md:col-span-6">
           @include('components._student_opportunities')
       </div>
-      <div class="col-span-6"></div>
+      <div class="md:col-span-6"></div>
    </div>
 
 

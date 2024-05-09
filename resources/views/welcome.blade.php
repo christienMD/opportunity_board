@@ -10,7 +10,7 @@
 @endsection
 @section('hero')
 <div class="w-full flex justify-center">
-    <div class="flex justify-center items-center bg-white mt-[150px] mb-14 w-full md:max-w-5xl px-12 rounded-full">
+    <div class="flex justify-center items-center bg-white mt-[100px] mb-16 w-full md:max-w-5xl px-12 rounded-full">
                 <div class="flex justify-center">
                 <div class="flex flex-col gap-6">
                     <h1 class="text-center capitalize text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl"><span class="sm:text-6xl md:text-7xl text-indigo-800">W</span>elcome to Opportunity <span class="text-indigo-800">Board</span></h1>

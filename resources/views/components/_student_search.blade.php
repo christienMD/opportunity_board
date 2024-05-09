@@ -16,7 +16,6 @@
                 <option>Part-time</option>
                 <option>Contract</option>
                 <option>Internship</option>
-                <option>Temporary</option>
             </select>
         </label>
         
@@ -34,9 +33,9 @@
         <div class="flex flex-col pt-1">
             Location:
             <div class="flex gap-3">
-                <div><label><input type="checkbox" class="checkbox checkbox-primary" />Remote</label></div>
-                <div><label><input type="checkbox" class="checkbox checkbox-primary" />Onsite</label></div>
-                <div><label><input type="checkbox" class="checkbox checkbox-primary" />Hybrid</label></div>
+                <div><label><input type="checkbox" class="checkbox border border-gray-500" />Remote</label></div>
+                <div><label><input type="checkbox" class="checkbox border border-gray-500" />Onsite</label></div>
+                <div><label><input type="checkbox" class="checkbox border border-gray-500" />Hybrid</label></div>
             </div>
         </div>
     </div>

@@ -52,16 +52,7 @@
             {{-- phone number --}}
              <div class="mt-4">
               <label for="phone_number" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
-              {{-- <div class="">
-                  <input
-                      value="{{old('phone_number')}}"
-                      type="text"
-                      placeholder="enter your phone number"
-                      name="phone_number"
-                      id="phone_number"
-                      class="outline-none block w-full rounded-md border-0 py-1.5 ps-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-xs placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  >
-              </div> --}}
+             
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
                                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">

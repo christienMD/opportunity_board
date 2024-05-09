@@ -1,4 +1,4 @@
-<div class="mb-6 mt-8 flex items-center justify-center w-full">
+<div class="mb-10 mt-8 flex items-center justify-center w-full">
     <form action="" class='px-6 relative w-full sm:max-w-lg'>
         <div class="relative">
             <input
