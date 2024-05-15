@@ -22,7 +22,7 @@
                                     <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name </label>
                                     <div class="">
                                         <input 
-                                        value="{{old('name')}}"
+                                        value="{{ auth()->check() ? old('name', optional($user)->name) : '' }}"
                                         type="text"
                                         placeholder="enter your full name"
                                         name="name"
@@ -40,7 +40,7 @@
                             <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                             <div class="">
                                 <input
-                                    value="{{old('email')}}"
+                                    value="{{old('email', optional($user)->email)}}"
                                     placeholder="enter your email"
                                     id="email"
                                     name="email"
@@ -64,12 +64,11 @@
                                             </svg>
                                         </div>
                                         <input 
-                                        value="{{old('phone_number')}}"
+                                        value="{{old('phone_number', optional($user)->phone_number)}}"
                                         type="text" 
                                         name="phone_number"
-                                        id="phone_number"
-                                        aria-describedby="helper-text-explanation" 
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" placeholder="123-456-789" 
+                                        id="phone_number" 
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" placeholder="123-456-789" 
                                         />
                                     </div>
                                     <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 dark:text-gray-400">put a phone number that matches the format.</p>
@@ -81,7 +80,7 @@
                         {{-- message       --}}
                         <div class="mt-4">
                             <label for="message" class='block text-sm font-medium leading-6 text-gray-900'>
-                        Breiefly tell us why you are fit for this position
+                        Briefly tell us why you are fit for this position
                             </label>
                             <textarea
 
@@ -89,7 +88,9 @@
                             class="mt-1 w-full border border-1 outline-none rounded-md placeholder:text-xs p-2 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
                             id="message"
                             name="message"
-                            ></textarea>
+                            >
+                          {{ old('description')}}
+                         </textarea>
                             @error('message')
                                 <p class="text-error text-base">{{$message}}</p>
                             @enderror

@@ -61,10 +61,10 @@
                             </div>
                             <input 
                             type="text" 
+                            value="{{old('phone_number')}}"
                             name="phone_number"
                             id="phone_number"
-                            aria-describedby="helper-text-explanation" 
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" placeholder="123-456-789" />
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5" placeholder="123-456-789" />
                         </div>
                 @error('phone_number')
                 <p class="text-error text-sm">{{$message}}</p>
@@ -109,10 +109,10 @@
 
         <!-- User Type -->
         <div class="mt-4 font-medium">
-            <label> Register as a (company or a student) </label>
+            <label> Register as a (company or student) </label>
             <div>
                 <label>
-                    <input type="radio" name="user_type" value="student" class="font-medium">
+                    <input  type="radio" name="user_type" value="student" class="font-medium">
                     {{ __('Student') }}
                 </label>
                 <label class="ml-4">

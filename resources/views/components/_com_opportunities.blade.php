@@ -18,7 +18,7 @@
 
             <tr>
               {{-- <td>{{ $opportunity->id }}</td> --}}
-              <td class="max-w-[280px]">
+              <td class="max-w-[200px]">
                     <div class="flex items-center gap-3">
                         <div class="avatar">
                             <div class="mask mask-squircle w-12 h-12">
@@ -31,15 +31,15 @@
                         </div>
                     </div>
                 </td>
-                <td class="max-w-sm text-[1.2rem]">
+                <td class="max-w-[100px] text-[1.2rem]">
                     <span class="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
                     {{ $opportunity->category }}
                     </span>
                 </td>
-                <td class="max-w-xs"><span class="badge badge-neutral">{{ $opportunity->status }}</span></td>
-                <td class="max-w-sm overflow-x-auto">{{ $opportunity->description }}</td>
+                <td class="max-w-[100px]"><span class="badge badge-neutral">{{ $opportunity->status }}</span></td>
+                <td class="max-w-[200px] overflow-x-auto">{{ $opportunity->description }}</td>
 
-               <td class="flex flex-col gap-3 items-center justify-center text-base capitalize font-medium">
+               <td class="flex flex-col gap-3 items-center justify-center text-base capitalize font-medium max-w-xs">
 
                 <a href="{{ route('publish_opportunity', $opportunity->id) }}" class="text-pink-600 hover:underline w-full">Publish Opportunity</a>
                 
@@ -67,11 +67,11 @@
                     </div>
                   </div>
 
-                 <a href="#" class="tooltip tooltip-bottom" data-tip="edit opportunity">
+                 <a href="/opportunities/{{$opportunity->id}}/edit" class="tooltip tooltip-bottom" data-tip="edit opportunity">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                     </svg>
-                </a>
+                 </a>
 
                 </div>
               </td>

@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Opportunity;
 use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
 {
-    public function welcome() {
-        return view('welcome');
+    public function welcome()
+    {
+        // Fetch only published opportunities
+        $opportunities = Opportunity::where('status', 'Published')->orderBy('published_at', 'desc')->get();
+        return view('welcome', compact('opportunities'));
     }
 }
+
+

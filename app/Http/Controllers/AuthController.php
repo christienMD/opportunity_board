@@ -55,7 +55,7 @@ class AuthController extends Controller
 
         // Redirect based on user type
         if ($user->user_type == 'student') {
-            return redirect()->route('student_home')->with('message', 'Your account has been Successfully created!');
+            return redirect()->route('student_home')->with('message', 'Your account has been created Successfuly!');
         } elseif ($user->user_type == 'company') {
             return redirect()->route('company_home')->with('message', 'Your account has been Successfully created!');
         }

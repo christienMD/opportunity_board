@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ApplicationMail;
 use App\Models\Application;
 use App\Models\Opportunity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
 {
@@ -30,27 +32,49 @@ class StudentController extends Controller
     // show application form
     public function showApplyForm($opportunityId) {
         $opportunity = Opportunity::findOrFail($opportunityId);
-        return view('components.apply_form', compact('opportunity'));
+        $user = auth()->user();
+        return view('components.apply_form', compact('opportunity', 'user'));
     }
 
 
+    // show application success page
+    public function applicationSubmited() {
+        return view('application_submitted');
+    }
 
+
+     // apply for an opportunity
     public function apply(Request $request)
     {
+
+        $userId = auth()->id();
+
         $request->validate([
             'name' => 'required|min:4',
             'email' => 'required|email',
             'phone_number' => 'required|string',
             'message' => 'required|string',
-            'cv_upload' => 'required|file|mimes:pdf|max:6144',
+            'cv_upload' => 'required|file|mimes:pdf|max:1014',
             'opportunity_id' => 'required|exists:opportunities,id'
         ]);
 
         // Store the CV file
-        $cvPath = $request->file('cv_upload')->store('public/cvs');
+        $path = 'uploads/cvs'; 
+        $filename = null;
+
+        if ($request->has('cv_upload')) {
+            $file = $request->file('cv_upload');
+            $file_extension = $file->getClientOriginalExtension();
+
+            $filename = time() . '.' . $file_extension;
+            $path = 'uploads/cvs';
+            $file->move($path, $filename);
+        }
+
+         $cvPath = url($path . '/' . $filename);
 
         $application = new Application([
-            'user_id' => auth()->id(),
+            'user_id' => $userId,
             'opportunity_id' => $request->opportunity_id,
             'cv_path' => $cvPath,
             'name' => $request->name,
@@ -60,7 +84,42 @@ class StudentController extends Controller
         ]);
         $application->save();
 
-        return redirect()->route('student_home')->with('message', 'Your application has been submitted successfully! We will get back to you shortly.');
+        // Fetch the associated opportunity including the company
+        $opportunity = Opportunity::with('company')->find($request->opportunity_id);
+       
+
+        // if ($opportunity && $opportunity->company) {
+        //     $companyEmail = $opportunity->company->email;
+
+
+
+        //     Mail::to($companyEmail)->send(new ApplicationMail($emailContent));
+
+        //     return redirect()->route('student_home')->with('message', 'Your application has been submitted successfully! We will get back to you shortly.');
+        // } else {
+        //     // Error handling if company or opportunity is not found
+        //     return redirect()->back()->with('error', 'Opportunity or company not found.');
+        // }
+        if ($opportunity && $opportunity->company) {
+            $companyEmail = $opportunity->company->email;
+
+            $emailContent = [
+                'message' => $request->message,
+                'studentName' => $request->name,
+                'opportunityTitle' => $opportunity->title
+            ];
+
+            Mail::to($companyEmail)->send(new ApplicationMail($emailContent));
+
+            // Redirect based on authentication status
+            if (Auth::check()) {
+                return redirect()->route('student_home')->with('message', 'Your application has been submitted successfully! We will get back to you shortly.');
+            } else {
+                return redirect()->route('application_submitted');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Opportunity or company not found.');
+        }
     }
 
 }

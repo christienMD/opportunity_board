@@ -14,4 +14,12 @@ class Opportunity extends Model
         'published_at' => 'datetime'
     ];
    protected $table = 'opportunities';
+
+    // In Opportunity model
+    public function company()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+
 }

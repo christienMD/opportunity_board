@@ -22,18 +22,20 @@ Route::post('/users/authenticate', [AuthController::class, 'authenticate'])->nam
 
 Route::get('/company/home', [CompanyController::class, 'home'])->name('company_home');
 
-Route::post('/opportunities', [CompanyController::class, 'save'])->name('company.save'); // save opportunities in the database
-
 Route::get('/opportunities/create', [CompanyController::class, 'create'])->name('company.create'); // show the create form
+
+Route::post('/opportunities', [CompanyController::class, 'save'])->name('company.save'); // save opportunities in the database
 
 Route::get('/opportunities/{id}/publish', [CompanyController::class, 'publish'])->name('publish_opportunity'); // publish opportunity
 
 Route::get('/opportunities/{id}/delete', [CompanyController::class, 'delete'])->name('delete_opportunity'); // delete an opportunity
 
+Route::get('/opportunities/{opportunity}/edit', [CompanyController::class, 'edit']); // showing the edit opportunity
+
+Route::put('/opportunities/{opportunity}', [CompanyController::class, 'update']); // update opp
+
 Route::get('/opportunities/{opportunityId}/apply', [StudentController::class, 'showApplyForm'])->name('application_form'); /// showing the application form
 
-Route::post('/opportunities/{opportunityId}/apply', [StudentController::class, 'apply'])->name('application.submit');
+Route::post('/opportunities/{opportunityId}/apply', [StudentController::class, 'apply'])->name('application.submit'); // send application form
 
-
-
-
+Route::get('/application/success', [StudentController::class, 'applicationSubmited'])->name('application_submitted'); // show the application success page
