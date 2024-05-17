@@ -16,7 +16,7 @@
                     <h1 class="text-center capitalize text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl"><span class="sm:text-6xl md:text-7xl text-indigo-800">W</span>elcome to Opportunity <span class="text-indigo-800">Board</span></h1>
                     <div class="flex justify-center">
                         <div class="w-full max-w-2xl">
-                            <p class="text-center text-lg px-10 font-medium ">Discover your next Career move. Explore job opportunities from top companies.
+                            <p class="text-center text-xl px-10 font-medium ">Discover your next Career move. Explore job opportunities from top companies.
                             <span><button class="p-3 lg:pt-3 lg:mt-1 border border-indigo-800 rounded-full bg-indigo-800 font-medium text-white hover:bg-indigo-950 transition-colors">Get Started</button></span> </>
                         </div>
                     </div>

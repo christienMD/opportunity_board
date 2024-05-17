@@ -10,7 +10,10 @@ class WelcomeController extends Controller
     public function welcome()
     {
         // Fetch only published opportunities
-        $opportunities = Opportunity::where('status', 'Published')->orderBy('published_at', 'desc')->get();
+        $opportunities = Opportunity::where('status', 'Published')
+                        ->latest('published_at')
+                        ->homeSearchFilter(request(['search']))
+                        ->
         return view('welcome', compact('opportunities'));
     }
 }

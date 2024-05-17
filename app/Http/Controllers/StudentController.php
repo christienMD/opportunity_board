@@ -13,7 +13,7 @@ class StudentController extends Controller
 {
     public function home()
     {
-       // Redirect to login if the user is not authenticated
+        // Redirect to login if the user is not authenticated
         if (!Auth::check()) {
             return redirect()->route('auth.login');
         }
@@ -24,13 +24,15 @@ class StudentController extends Controller
         $opportunities = Opportunity::where('category', $userCategory)
             ->where('status', 'Published')
             ->latest('published_at')
+            ->searchFilter(request(['search']))
             ->get();
 
         return view('student_home', compact('opportunities'));
     }
 
     // show application form
-    public function showApplyForm($opportunityId) {
+    public function showApplyForm($opportunityId)
+    {
         $opportunity = Opportunity::findOrFail($opportunityId);
         $user = auth()->user();
         return view('components.apply_form', compact('opportunity', 'user'));
@@ -38,12 +40,13 @@ class StudentController extends Controller
 
 
     // show application success page
-    public function applicationSubmited() {
+    public function applicationSubmited()
+    {
         return view('application_submitted');
     }
 
 
-     // apply for an opportunity
+    // apply for an opportunity
     public function apply(Request $request)
     {
 
@@ -59,7 +62,7 @@ class StudentController extends Controller
         ]);
 
         // Store the CV file
-        $path = 'uploads/cvs'; 
+        $path = 'uploads/cvs';
         $filename = null;
 
         if ($request->has('cv_upload')) {
@@ -71,7 +74,7 @@ class StudentController extends Controller
             $file->move($path, $filename);
         }
 
-         $cvPath = url($path . '/' . $filename);
+        $cvPath = url($path . '/' . $filename);
 
         $application = new Application([
             'user_id' => $userId,
@@ -86,20 +89,7 @@ class StudentController extends Controller
 
         // Fetch the associated opportunity including the company
         $opportunity = Opportunity::with('company')->find($request->opportunity_id);
-       
 
-        // if ($opportunity && $opportunity->company) {
-        //     $companyEmail = $opportunity->company->email;
-
-
-
-        //     Mail::to($companyEmail)->send(new ApplicationMail($emailContent));
-
-        //     return redirect()->route('student_home')->with('message', 'Your application has been submitted successfully! We will get back to you shortly.');
-        // } else {
-        //     // Error handling if company or opportunity is not found
-        //     return redirect()->back()->with('error', 'Opportunity or company not found.');
-        // }
         if ($opportunity && $opportunity->company) {
             $companyEmail = $opportunity->company->email;
 
@@ -121,5 +111,4 @@ class StudentController extends Controller
             return redirect()->back()->with('error', 'Opportunity or company not found.');
         }
     }
-
 }

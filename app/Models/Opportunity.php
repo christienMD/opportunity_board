@@ -21,5 +21,25 @@ class Opportunity extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    // search filter
+    public function scopeSearchFilter($query, $filters)
+    {
+        if ($filters['search'] ?? false) {
+            $query->where('title','like', '%' . request('search') . '%');
+            $query->orWhere('description','like', '%' . request('search') . '%');
+              
+        }
+    }
+
+    // home search filter
+    public function scopeHomeSearchFilter($query, $filters)
+    {
+        if ($filters['search'] ?? false) {
+            $query->where('title','like', '%' . request('search') . '%');
+            $query->orWhere('description','like', '%' . request('search') . '%');
+              
+        }
+    }
+
 
 }
