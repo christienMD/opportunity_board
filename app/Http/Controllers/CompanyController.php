@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Mail\OpportunityAlert;
 use App\Models\Opportunity;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
@@ -80,15 +82,39 @@ class CompanyController extends Controller
                   ->get();
 
         foreach ($students as $student) {
-            $mailData = [ // Adjust mail data as per your requirements
+            try {
+                //code...
+                $mailData = [
                     'studentName' => $student->name,
                     'opportunityTitle' => $opportunity->title,
-                    'opportunityDetails' => $opportunity->details,
+                    'opportunityDetails' => $opportunity->description,
                 ];
-            Mail::to($student->email)->send(new OpportunityAlert($mailData));
+                Mail::to($student->email)->queue(new OpportunityAlert($mailData));
+            } catch (Exception $e) {
+                //throw $th;
+                Log::error('Failed to send email to ' . $student->email . ': ' . $e->getMessage());
+
+            }
+          
         }
       
         return redirect()->route('company_home')->with('message', 'Opportunity has been successfully published!');
+    }
+
+    // publish opportunity
+    public function unpublish($id)
+    {
+        $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
+
+        if (!$opportunity) {
+            return redirect()->back()->withErrors('Opportunity not found.');
+        }
+
+        $opportunity->status = trim('Pending');
+        $opportunity->published_at = now();
+        $opportunity->save();
+      
+        return redirect()->route('company_home')->with('message', 'Opportunity has been unpublished successfully!');
     }
 
     // delete opportunities

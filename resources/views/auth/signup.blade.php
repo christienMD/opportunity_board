@@ -6,7 +6,7 @@
   
     <div class="mt-8 flex flex-col items-center mb-4">
         <h1 class="text-center text-xl capitalize mb-2"><span class="text-3xl text-indigo-900 font-bold">Sign Up</span> To Opportunity Board and Ace Your Career</h1>
-        <div><a href=" {{ route('welcome') }} ">@include('components._logo')</a></div>
+        <div><a href=" {{ route('welcome') }} ">@include('components.logo')</a></div>
     </div>
 
       <div class="w-full flex flex-col items-center justify-center">

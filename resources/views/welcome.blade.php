@@ -1,7 +1,7 @@
 @extends('layouts.landing_page')
 @section('header')
  <nav class="flex items-center justify-between h-14 border border-b shadow-sm px-6 bg-gradient-to-t from-indigo-50 to-white">
-        <div>@include('components._logo')</div>
+        <div>@include('components.logo')</div>
         <div class="flex gap-3 items-center">
             <a href="{{ route('auth.signup') }}"><button class="rounded-md py-1 px-3 text-white text-base bg-indigo-800 hover:bg-indigo-900 border-indigo-800 hover:border-indigo-800">Sign Up</button></a>
             <a href="{{ route('auth.login') }}"><button class="border-2 text-base border-indigo-700 px-3 rounded-md py-0.5 text-indigo-700 hover:text-white hover:bg-indigo-800">Login</button></a>
@@ -26,5 +26,12 @@
     </div>
 @endsection
 @section('main')
-@include('components._main')
+<div >
+    <h3 class="md:container md:mx-auto text-base text-center px-6 w-full md:max-w-4xl">Explore exciting job opportunities from top companies. Whether you're a recent graduate or an experienced professional, we've got something for you.</h3>
+    @include('components.search_input_')
+
+    <div class="flex justify-center">
+        @include('components.opportunitiees')
+    </div>
+</div>
 @endsection

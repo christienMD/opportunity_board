@@ -83,9 +83,9 @@
                         Briefly tell us why you are fit for this position
                             </label>
                             <textarea
-
+                            onfocus="moveCursorToStart(this)"
                             placeholder="brief message"
-                            class="mt-1 w-full border border-1 outline-none rounded-md placeholder:text-xs p-2 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+                            class="mt-1 p-2 w-full h-28 border border-1 outline-none rounded-md placeholder:text-xs focus:ring-2 focus:ring-inset focus:ring-indigo-600"
                             id="message"
                             name="message"
                             >
@@ -167,4 +167,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+  function moveCursorToStart(input) {
+    input.focus();
+    input.setSelectionRange(0, 0);
+  }
+
 </script>

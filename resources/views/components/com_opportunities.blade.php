@@ -95,7 +95,7 @@
             </tr>
           @endforeach
            @else
-             @include('components._opp_empty')
+             @include('components.opp_empty')
            @endif
         </tbody>
       </table>

@@ -10,19 +10,19 @@
 </head>
 <body>
     {{-- nav bar --}}
-   @include('components._student_nav')
+   @include('components.student_nav')
    <div class="flex justify-center p-10 lg:p-5 w-full mb-6">
-       @include('components._student_search')
+       @include('components.student_search')
    </div>
    <div class="container mx-auto grid grid-cols-12 p-2">
       <div class="col-span-12 md:col-span-6">
-          @include('components._student_opportunities')
+          @include('components.student_opportunities')
       </div>
       <div class="md:col-span-6"></div>
    </div>
 
 
 
- @include('components._toast')
+ @include('components.toast_')
 </body>
 </html>

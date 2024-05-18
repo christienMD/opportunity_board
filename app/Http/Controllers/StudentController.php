@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Mail\ApplicationMail;
 use App\Models\Application;
 use App\Models\Opportunity;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
@@ -91,15 +93,23 @@ class StudentController extends Controller
         $opportunity = Opportunity::with('company')->find($request->opportunity_id);
 
         if ($opportunity && $opportunity->company) {
-            $companyEmail = $opportunity->company->email;
+            try {
+                //code...
+                $companyEmail = $opportunity->company->email;
 
-            $emailContent = [
-                'message' => $request->message,
-                'studentName' => $request->name,
-                'opportunityTitle' => $opportunity->title
-            ];
+                $emailContent = [
+                    'message' => $request->message,
+                    'studentName' => $request->name,
+                    'opportunityTitle' => $opportunity->title
+                ];
 
-            Mail::to($companyEmail)->send(new ApplicationMail($emailContent));
+                Mail::to($companyEmail)->queue(new ApplicationMail($emailContent));
+            } catch (Exception $e) {
+                Log::error('Failed to send email to ' . $companyEmail . ': ' . $e->getMessage());
+
+                return back()->with('error', 'Failed to send the email to ' . $companyEmail . '. Please try again.');
+            }
+          
 
             // Redirect based on authentication status
             if (Auth::check()) {

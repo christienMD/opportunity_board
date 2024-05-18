@@ -13,7 +13,7 @@ class WelcomeController extends Controller
         $opportunities = Opportunity::where('status', 'Published')
                         ->latest('published_at')
                         ->homeSearchFilter(request(['search']))
-                        ->
+                        ->simplePaginate(4);
         return view('welcome', compact('opportunities'));
     }
 }

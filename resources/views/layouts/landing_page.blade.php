@@ -12,6 +12,6 @@
    @yield('header')
    @yield('hero')
    @yield('main')
-   @include('components._toast')
+   @include('components.toast_')
 </body>
 </html>

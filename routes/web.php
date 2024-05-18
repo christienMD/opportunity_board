@@ -28,6 +28,8 @@ Route::post('/opportunities', [CompanyController::class, 'save'])->name('company
 
 Route::get('/opportunities/{id}/publish', [CompanyController::class, 'publish'])->name('publish_opportunity'); // publish opportunity
 
+Route::get('/opportunities/{id}/unpublish', [CompanyController::class, 'unpublish'])->name('unpublish_opportunity'); // publish opportunity
+
 Route::get('/opportunities/{id}/delete', [CompanyController::class, 'delete'])->name('delete_opportunity'); // delete an opportunity
 
 Route::get('/opportunities/{opportunity}/edit', [CompanyController::class, 'edit']); // showing the edit opportunity

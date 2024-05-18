@@ -73,7 +73,7 @@
         {{-- image --}}
         <div class="my-4">
            <label for="img_upload" class="">Uploade Image</label>
-           <input class="mt-1" type="file" id="img_upload" name="img_upload" onchange="previewImage(event)">
+           <input class="mt-1" type="file" id="img_upload" name="img_upload" accept=".png , .jpg , .jpeg" onchange="previewImage(event)">
 
            <div class="py-4">
               
