@@ -3,11 +3,11 @@
 Opportunity Board is a web application designed to bridge the gap between students seeking professional opportunities and companies offering positions in various domains such as jobs, internships, and volunteer work. Built using the robust Laravel framework, this platform provides an intuitive user interface and a seamless user experience.
 
 ## <span>Features </span>
-User Registration and Authentication: Secure login system for students and companies.
-Opportunity Management: Allows companies to create, update, and delete job postings, which students can view and apply to.
-User Account Management: Users can edit personal details or deactivate their accounts.
-Notifications: Automated alerts keep students updated about new opportunities and inform companies when applicants show interest in an offering.
-Performance and Security: Optimized for quick loading times with a focus on securing user data through robust encryption standards.
+**User Registration and Authentication:** Secure login system for students and companies.
+**<p>Opportunity Management:** Allows companies to create, update, and delete job postings, which students can view and apply to.<br>
+**User Account Management:** Users can edit personal details or deactivate their accounts. <br>
+**Notifications:** Automated alerts keep students updated about new opportunities and inform companies when applicants show interest in an offering.
+
 Getting Started
 Prerequisites
 PHP >= 8.0
