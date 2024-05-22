@@ -6,6 +6,8 @@ use App\Mail\ApplicationMail;
 use App\Models\Application;
 use App\Models\Opportunity;
 use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -13,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
 {
-    public function home()
+    public function index(): View
     {
         // Redirect to login if the user is not authenticated
         if (!Auth::check()) {
@@ -33,28 +35,20 @@ class StudentController extends Controller
     }
 
     // show application form
-    public function showApplyForm($opportunityId)
+    public function apply($id) : View
     {
-        $opportunity = Opportunity::findOrFail($opportunityId);
+        $opportunity = Opportunity::findOrFail($id);
         $user = auth()->user();
         return view('components.apply_form', compact('opportunity', 'user'));
     }
 
-
-    // show application success page
-    public function applicationSubmited()
-    {
-        return view('application_submitted');
-    }
-
-
-    // apply for an opportunity
-    public function apply(Request $request)
+    
+    public function store(Request $request): RedirectResponse
     {
 
         $userId = auth()->id();
 
-        $request->validate([
+       $formFields = $request->validate([
             'name' => 'required|min:4',
             'email' => 'required|email',
             'phone_number' => 'required|string',
@@ -78,15 +72,15 @@ class StudentController extends Controller
 
         $cvPath = url($path . '/' . $filename);
 
-        $application = new Application([
-            'user_id' => $userId,
-            'opportunity_id' => $request->opportunity_id,
-            'cv_path' => $cvPath,
-            'name' => $request->name,
-            'phone_number' => $request->phone_number,
-            'email' => $request->email,
-            'message' => $request->message
-        ]);
+        $application = new Application();
+        $application->user_id = $userId;
+        $application->opportunity_id = $formFields['opportunity_id'];
+        $application->cv_path = $cvPath;
+        $application->name = $formFields['name'];
+        $application->phone_number = $formFields['phone_number'];
+        $application->email = $formFields['email'];
+        $application->message = $formFields['message'];
+
         $application->save();
 
         // Fetch the associated opportunity including the company
@@ -109,16 +103,23 @@ class StudentController extends Controller
 
                 return back()->with('error', 'Failed to send the email to ' . $companyEmail . '. Please try again.');
             }
-          
+
 
             // Redirect based on authentication status
             if (Auth::check()) {
-                return redirect()->route('student_home')->with('message', 'Your application has been submitted successfully! We will get back to you shortly.');
+                return redirect()->route('student.index')->with('message', 'Your application has been submitted successfully! We will get back to you shortly.');
             } else {
-                return redirect()->route('application_submitted');
+                return redirect()->route('student.success');
             }
         } else {
             return redirect()->back()->with('error', 'Opportunity or company not found.');
         }
     }
+
+    // show application success page
+    public function success(): View
+    {
+        return view('student.success');
+    }
+
 }

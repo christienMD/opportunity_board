@@ -24,6 +24,7 @@ class AuthController extends Controller
   // register users
     public function store(Request $request)
     {
+
         $formFields = $request->validate([
             'name' => ['required', 'min:4'],
             'email' => ['required', 'email', Rule::unique('users', 'email')],

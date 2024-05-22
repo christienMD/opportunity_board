@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\RedirectResponse;
 
 class CompanyController extends Controller
 {
@@ -18,7 +19,8 @@ class CompanyController extends Controller
     public function home()
     {
         $opportunities = Opportunity::where('user_id', Auth::id())->get();
-        return view('company_home', compact('opportunities'));
+        
+        return view('company.index', compact('opportunities'));
     }
 
 
@@ -31,9 +33,9 @@ class CompanyController extends Controller
 
 
     // save opportunities in the database
-    public function save(Request $request)
+    public function store(Request $request)
     {
-        $request->validate([
+       $formFields = $request->validate([
             'title' => ['required', 'min:6'],
             'category' => ['required'],
             'description' => ['required', 'min:60'],
@@ -51,9 +53,9 @@ class CompanyController extends Controller
 
         $opportunity = new Opportunity;
         $opportunity->user_id = Auth::id();
-        $opportunity->title = $request->input('title');
-        $opportunity->category = $request->input('category');
-        $opportunity->description = $request->input('description');
+        $opportunity->title = $formFields('title');
+        $opportunity->category = $formFields('category');
+        $opportunity->description = $formFields('description');
         $opportunity->img_url = url($path . '/' . $filename);
         $opportunity->status = 'Pending'; // default status when created
         $opportunity->closing_date = now()->addDays(30); // assuming 30 days is the required period
@@ -65,7 +67,7 @@ class CompanyController extends Controller
 
 
     // publish opportunity
-    public function publish($id)
+    public function publish($id): RedirectResponse
     {
         $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
 
