@@ -13,15 +13,15 @@ Route::get('/', [WelcomeController::class, 'welcome'])->name('welcome');
 Route::controller(AuthController::class)
       ->name('auth.')
       ->group(function () {
-          Route::get('/signup', [AuthController::class, 'signup'])->name('signup'); // show the sign up form
+          Route::get('/signup', 'signup')->name('signup'); // show the sign up form
           
-          Route::post('/users', [AuthController::class, 'store'])->name('store'); // register users
+          Route::post('/users', 'store')->name('store'); // register users
           
-          Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); // log users out
+          Route::post('/logout', 'logout')->name('logout'); // log users out
           
-          Route::get('/login', [AuthController::class, 'login'])->name('login'); // show login form
+          Route::get('/login', 'login')->name('login'); // show login form
           
-          Route::post('/users/authenticate', [AuthController::class, 'authenticate'])->name('authenticate'); // log users in
+          Route::post('/users/authenticate', 'authenticate')->name('authenticate'); // log users in
       });
 
 Route::controller(CompanyController::class)
@@ -39,7 +39,7 @@ Route::controller(CompanyController::class)
           
           Route::get('/{id}/unpublish', 'unpublish')->name('unpublish'); // publish opportunity
           
-          Route::get('/{id}/delete', 'delete')->name('delete'); // delete an opportunity
+          Route::get('/{id}/delete', 'destroy')->name('delete'); // delete an opportunity
           
           Route::get('/{opportunity}/edit', 'edit'); // showing the edit opportunity
           

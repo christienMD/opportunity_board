@@ -6,6 +6,7 @@ use App\Mail\OpportunityAlert;
 use App\Models\Opportunity;
 use App\Models\User;
 use Exception;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -16,7 +17,7 @@ use Illuminate\Http\RedirectResponse;
 class CompanyController extends Controller
 {
     // show the home page
-    public function home()
+    public function index(): View
     {
         $opportunities = Opportunity::where('user_id', Auth::id())->get();
         
@@ -25,7 +26,7 @@ class CompanyController extends Controller
 
 
     // show create form
-    public function create()
+    public function create(): View
     {
         return view('company.create');
     }
@@ -33,7 +34,7 @@ class CompanyController extends Controller
 
 
     // save opportunities in the database
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
        $formFields = $request->validate([
             'title' => ['required', 'min:6'],
@@ -104,7 +105,7 @@ class CompanyController extends Controller
     }
 
     // publish opportunity
-    public function unpublish($id)
+    public function unpublish($id): RedirectResponse
     {
         $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
 
@@ -120,7 +121,7 @@ class CompanyController extends Controller
     }
 
     // delete opportunities
-    public function delete($id)
+    public function destroy($id): RedirectResponse
     {
         $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
 
@@ -133,14 +134,14 @@ class CompanyController extends Controller
     }
 
    // show edit form
-   public function edit(Opportunity $opportunity) {
+   public function edit(Opportunity $opportunity): View {
         //   dd($opportunity);
         $categories = ['Volunteer', 'Internship', 'Job'];
       return view('company.edit', ['opportunity' => $opportunity, 'categories' => $categories]);
    }
 
    // update opportunities
-    public function update(Request $request, Opportunity $opportunity)
+    public function update(Request $request, Opportunity $opportunity): RedirectResponse
     {
         $request->validate([
             'title' => ['required', 'min:6'],
