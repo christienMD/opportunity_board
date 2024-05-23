@@ -35,7 +35,7 @@ Route::controller(AuthController::class)
  *
  * Manage all company operations
  */      
-Route::get('/company/home', [CompanyController::class ,'index'])->name('index');
+Route::get('/company/home', [CompanyController::class ,'index'])->name('company.index');
 Route::controller(CompanyController::class)
       ->prefix('opportunities')
       ->name('company.')
@@ -65,7 +65,7 @@ Route::get('/opportunity/{id}', [CompanyController::class ,'show']);
  *
  * Manage all student operations
  */
-Route::get('/students/home', [StudentController::class ,'index'])->name('index');
+Route::get('/students/home', [StudentController::class ,'index'])->name('student.index');
 Route::controller(StudentController::class)
       ->prefix('opportunities')
       ->name('student.')
