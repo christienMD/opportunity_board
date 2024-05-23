@@ -21,11 +21,11 @@
                     <div class="flex items-center gap-3">
                         <div class="avatar">
                             <div class="mask mask-squircle w-12 h-12">
-                              <img src="{{ asset($opportunity->img_url) }}" alt="{{ $opportunity->title }}" />
+                              <img src="{{ $opportunity->img_url ? asset($opportunity->img_url) : '' }}" alt="{{ $opportunity->title }}" />
                             </div>
                         </div>
                         <div>
-                            <div class="font-bold text-lg">{{ $opportunity->title }}</div>
+                            <div class="font-bold text-lg capitalize">{{ $opportunity->title }}</div>
                             <div class="text-sm">ends on: <span class="font-medium">{{ $opportunity->closing_date ? $opportunity->closing_date->toFormattedDateString() : 'Date not set' }}</span></div>
                         </div>
                     </div>

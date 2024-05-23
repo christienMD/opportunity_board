@@ -35,7 +35,7 @@ class StudentController extends Controller
     }
 
     // show application form
-    public function apply($id) : View
+    public function apply(int $id) : View
     {
         $opportunity = Opportunity::findOrFail($id);
         $user = auth()->user();

@@ -68,7 +68,7 @@ class CompanyController extends Controller
 
 
     // publish opportunity
-    public function publish($id): RedirectResponse
+    public function publish(int $id): RedirectResponse
     {
         $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
 
@@ -105,7 +105,7 @@ class CompanyController extends Controller
     }
 
     // publish opportunity
-    public function unpublish($id): RedirectResponse
+    public function unpublish(int $id): RedirectResponse
     {
         $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
 
@@ -121,7 +121,7 @@ class CompanyController extends Controller
     }
 
     // delete opportunities
-    public function destroy($id): RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
         $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
 
