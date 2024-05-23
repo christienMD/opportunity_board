@@ -7,6 +7,7 @@ use App\Models\Opportunity;
 use App\Models\User;
 use Exception;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -170,4 +171,9 @@ class CompanyController extends Controller
         return redirect()->route('company.index')->with('message', 'Opportunity updated successfully!');
     }
 
+        public function show(int $id): JsonResponse
+        {
+            $opportunity = Opportunity::with('company')->findOrFail($id);
+            return response()->json($opportunity);
+        }
 }
