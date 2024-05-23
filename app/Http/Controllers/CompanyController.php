@@ -8,61 +8,49 @@ use App\Models\User;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\RedirectResponse;
 
 class CompanyController extends Controller
 {
-
     /**
      * Display a listing of the company's opportunities.
-     *
-     * @return \Illuminate\Contracts\View\View
      */
     public function index(): View
     {
         $opportunities = Opportunity::where('user_id', Auth::id())->get();
-        
+
         return view('company.index', compact('opportunities'));
     }
 
-
     /**
      * Display the form for creating a new opportunity.
-     *
-     * @return \Illuminate\Contracts\View\View
      */
     public function create(): View
     {
         return view('company.create');
     }
 
-
-
     /**
      * Handle the form submission for creating a new opportunity.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
-       $formFields = $request->validate([
+        $formFields = $request->validate([
             'title' => ['required', 'min:6'],
             'category' => ['required'],
             'description' => ['required', 'min:60'],
-            'img_upload' => ['required', 'mimes:png,jpg,jpeg']
+            'img_upload' => ['required', 'mimes:png,jpg,jpeg'],
         ]);
 
         if ($request->has('img_upload')) {
             $file = $request->file('img_upload');
             $file_extension = $file->getClientOriginalExtension();
 
-            $filename = time() . '.' . $file_extension;
+            $filename = time().'.'.$file_extension;
             $path = 'uploads/opportunities';
             $file->move($path, $filename);
         }
@@ -72,7 +60,7 @@ class CompanyController extends Controller
         $opportunity->title = $formFields['title'];
         $opportunity->category = $formFields['category'];
         $opportunity->description = $formFields['description'];
-        $opportunity->img_url = url($path . '/' . $filename);
+        $opportunity->img_url = url($path.'/'.$filename);
         $opportunity->status = 'Pending'; // default status when created
         $opportunity->closing_date = now()->addDays(30); // assuming 30 days is the required period
         $opportunity->save();
@@ -80,19 +68,14 @@ class CompanyController extends Controller
         return redirect()->route('company.index')->with('message', 'Opportunity has been Successfully Created!!');
     }
 
-
-
     /**
      * Publish an opportunity.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function publish(int $id): RedirectResponse
     {
         $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
 
-        if (!$opportunity) {
+        if (! $opportunity) {
             return redirect()->back()->withErrors('Opportunity not found.');
         }
 
@@ -101,8 +84,8 @@ class CompanyController extends Controller
         $opportunity->save();
 
         $students = User::where('user_type', 'student')
-                  ->where('category', $opportunity->category)
-                  ->get();
+            ->where('category', $opportunity->category)
+            ->get();
 
         foreach ($students as $student) {
             try {
@@ -115,41 +98,35 @@ class CompanyController extends Controller
                 Mail::to($student->email)->queue(new OpportunityAlert($mailData));
             } catch (Exception $e) {
                 //throw $th;
-                Log::error('Failed to send email to ' . $student->email . ': ' . $e->getMessage());
+                Log::error('Failed to send email to '.$student->email.': '.$e->getMessage());
 
             }
-          
+
         }
-      
+
         return redirect()->route('company.index')->with('message', 'Opportunity has been successfully published!');
     }
 
     /**
      * Unpublish the an opportunity.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function unpublish(int $id): RedirectResponse
     {
         $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
 
-        if (!$opportunity) {
+        if (! $opportunity) {
             return redirect()->back()->withErrors('Opportunity not found.');
         }
 
         $opportunity->status = trim('Pending');
         $opportunity->published_at = now();
         $opportunity->save();
-      
+
         return redirect()->route('company.index')->with('message', 'Opportunity has been unpublished successfully!');
     }
 
     /**
      * Delete an opportunity.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(int $id): RedirectResponse
     {
@@ -157,6 +134,7 @@ class CompanyController extends Controller
 
         if ($opportunity) {
             $opportunity->delete();
+
             return redirect()->route('company.index')->with('message', 'Opportunity successfully deleted.');
         } else {
             return redirect()->back()->withErrors('Opportunity not found.');
@@ -165,23 +143,17 @@ class CompanyController extends Controller
 
     /**
      * Display the form for editing an opportunity.
-     *
-     * @param  \App\Models\Opportunity  $opportunity
-     * @return \Illuminate\Contracts\View\View
      */
-   public function edit(Opportunity $opportunity): View {
+    public function edit(Opportunity $opportunity): View
+    {
         //   dd($opportunity);
         $categories = ['Volunteer', 'Internship', 'Job'];
-      return view('company.edit', ['opportunity' => $opportunity, 'categories' => $categories]);
-   }
 
+        return view('company.edit', ['opportunity' => $opportunity, 'categories' => $categories]);
+    }
 
     /**
      * Update an opportunity.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Opportunity  $opportunity
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Opportunity $opportunity): RedirectResponse
     {
@@ -189,7 +161,7 @@ class CompanyController extends Controller
             'title' => ['required', 'min:6'],
             'category' => ['required'],
             'description' => ['required', 'min:60'],
-            'img_upload' => ['mimes:png,jpg,jpeg']
+            'img_upload' => ['mimes:png,jpg,jpeg'],
         ]);
 
         // Update the existing opportunity
@@ -201,10 +173,10 @@ class CompanyController extends Controller
         if ($request->hasFile('img_upload')) {
             $file = $request->file('img_upload');
             $file_extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $file_extension;
+            $filename = time().'.'.$file_extension;
             $path = 'uploads/opportunities';
             $file->move($path, $filename);
-            $opportunity->img_url = url($path . '/' . $filename);
+            $opportunity->img_url = url($path.'/'.$filename);
         }
 
         $opportunity->save();
@@ -214,13 +186,11 @@ class CompanyController extends Controller
 
     /**
      * Display a specific opportunity in JSON format.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
      */
-        public function show(int $id): JsonResponse
-        {
-            $opportunity = Opportunity::with('company')->findOrFail($id);
-            return response()->json($opportunity);
-        }
+    public function show(int $id): JsonResponse
+    {
+        $opportunity = Opportunity::with('company')->findOrFail($id);
+
+        return response()->json($opportunity);
+    }
 }

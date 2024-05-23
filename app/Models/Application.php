@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Application extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'cv_path',
@@ -15,7 +16,8 @@ class Application extends Model
         'phone_number',
         'email',
         'message',
-        'opportunity_id'
+        'opportunity_id',
     ];
-    protected $table ='applications';
+
+    protected $table = 'applications';
 }

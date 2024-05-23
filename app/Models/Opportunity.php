@@ -8,12 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Opportunity extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description', 'img_url', 'category', 'status', 'closing_date', 'user_id','published_at'];
+
+    protected $fillable = ['title', 'description', 'img_url', 'category', 'status', 'closing_date', 'user_id', 'published_at'];
+
     protected $casts = [
         'closing_date' => 'datetime',
-        'published_at' => 'datetime'
+        'published_at' => 'datetime',
     ];
-   protected $table = 'opportunities';
+
+    protected $table = 'opportunities';
 
     // In Opportunity model
     public function company()
@@ -25,9 +28,9 @@ class Opportunity extends Model
     public function scopeSearchFilter($query, $filters)
     {
         if ($filters['search'] ?? false) {
-            $query->where('title','like', '%' . request('search') . '%');
-            $query->orWhere('description','like', '%' . request('search') . '%');
-              
+            $query->where('title', 'like', '%'.request('search').'%');
+            $query->orWhere('description', 'like', '%'.request('search').'%');
+
         }
     }
 
@@ -35,11 +38,9 @@ class Opportunity extends Model
     public function scopeHomeSearchFilter($query, $filters)
     {
         if ($filters['search'] ?? false) {
-            $query->where('title','like', '%' . request('search') . '%');
-            $query->orWhere('description','like', '%' . request('search') . '%');
-              
+            $query->where('title', 'like', '%'.request('search').'%');
+            $query->orWhere('description', 'like', '%'.request('search').'%');
+
         }
     }
-
-
 }

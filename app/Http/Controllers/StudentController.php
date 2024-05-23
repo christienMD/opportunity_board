@@ -15,16 +15,13 @@ use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
 {
-
     /**
      * Display a listing of opportunities for students.
-     *
-     * @return \Illuminate\Contracts\View\View
      */
     public function index(): View
     {
         // Redirect to login if the user is not authenticated
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('auth.login');
         }
 
@@ -42,36 +39,30 @@ class StudentController extends Controller
 
     /**
      * Display the application form for an opportunity.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\View\View
      */
-    public function apply(int $id) : View
+    public function apply(int $id): View
     {
         $opportunity = Opportunity::findOrFail($id);
         $user = auth()->user();
+
         return view('student.apply', compact('opportunity', 'user'));
     }
 
-
     /**
      * Store a new application for a specific opportunity.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
 
         $userId = auth()->id();
 
-       $formFields = $request->validate([
+        $formFields = $request->validate([
             'name' => 'required|min:4',
             'email' => 'required|email',
             'phone_number' => 'required|string',
             'message' => 'required|string',
             'cv_upload' => 'required|file|mimes:pdf|max:1014',
-            'opportunity_id' => 'required|exists:opportunities,id'
+            'opportunity_id' => 'required|exists:opportunities,id',
         ]);
 
         // Store the CV file
@@ -82,12 +73,12 @@ class StudentController extends Controller
             $file = $request->file('cv_upload');
             $file_extension = $file->getClientOriginalExtension();
 
-            $filename = time() . '.' . $file_extension;
+            $filename = time().'.'.$file_extension;
             $path = 'uploads/cvs';
             $file->move($path, $filename);
         }
 
-        $cvPath = url($path . '/' . $filename);
+        $cvPath = url($path.'/'.$filename);
 
         $application = new Application();
         $application->user_id = $userId;
@@ -111,16 +102,15 @@ class StudentController extends Controller
                 $emailContent = [
                     'message' => $request->message,
                     'studentName' => $request->name,
-                    'opportunityTitle' => $opportunity->title
+                    'opportunityTitle' => $opportunity->title,
                 ];
 
                 Mail::to($companyEmail)->queue(new ApplicationMail($emailContent));
             } catch (Exception $e) {
-                Log::error('Failed to send email to ' . $companyEmail . ': ' . $e->getMessage());
+                Log::error('Failed to send email to '.$companyEmail.': '.$e->getMessage());
 
-                return back()->with('error', 'Failed to send the email to ' . $companyEmail . '. Please try again.');
+                return back()->with('error', 'Failed to send the email to '.$companyEmail.'. Please try again.');
             }
-
 
             // Redirect based on authentication status
             if (Auth::check()) {
@@ -135,12 +125,9 @@ class StudentController extends Controller
 
     /**
      * Display the application success page.
-     *
-     * @return \Illuminate\Contracts\View\View
      */
     public function success(): View
     {
         return view('student.success');
     }
-
 }

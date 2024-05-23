@@ -12,7 +12,9 @@ use Illuminate\Queue\SerializesModels;
 class OpportunityAlert extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
+
     public $mailData;
+
     /**
      * Create a new message instance.
      */

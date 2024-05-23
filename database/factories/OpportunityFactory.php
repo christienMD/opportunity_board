@@ -28,14 +28,14 @@ class OpportunityFactory extends Factory
         ];
     }
 
-        /**
-         * Indicate that the opportunity is Published.
-         */
-        public function published(): static
-        {
-            return $this->state(fn (array $attributes) => [
-                'status' => 'Published',
-                'published_at' => now(),
-            ]);
-        }
+    /**
+     * Indicate that the opportunity is Published.
+     */
+    public function published(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'Published',
+            'published_at' => now(),
+        ]);
+    }
 }

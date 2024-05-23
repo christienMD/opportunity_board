@@ -12,8 +12,6 @@ class AuthController extends Controller
 {
     /**
      * Display the signup form for new users.
-     *
-     * @return \Illuminate\Contracts\View\View
      */
     public function signup(): View
     {
@@ -22,20 +20,14 @@ class AuthController extends Controller
 
     /**
      * Display the login form for existing users.
-     *
-     * @return \Illuminate\Contracts\View\View
      */
     public function login(): View
     {
         return view('auth.login');
     }
 
-
     /**
      * Store a new user in the database.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
@@ -46,7 +38,7 @@ class AuthController extends Controller
             'phone_number' => ['required', 'string', 'max:15'],
             'user_type' => ['required', Rule::in(['student', 'company'])],
             'category' => ['required_if:user_type,student'],
-            'password' => ['required', 'confirmed', 'min:6']
+            'password' => ['required', 'confirmed', 'min:6'],
         ]);
 
         // Hash Password
@@ -65,7 +57,6 @@ class AuthController extends Controller
 
         $user->save();
 
-
         // login
         auth()->login($user);
 
@@ -79,47 +70,40 @@ class AuthController extends Controller
 
     /**
      * Log out the current user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function logout(Request $request): RedirectResponse
-     {
-         auth()->logout();
+    {
+        auth()->logout();
 
-         $request->session()->invalidate();
-         $request->session()->regenerateToken();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-         return redirect('/')->with('message', 'You have been Logged Out.');
+        return redirect('/')->with('message', 'You have been Logged Out.');
     }
 
     /**
      * Authenticate an existing user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function authenticate(Request $request): RedirectResponse
-     {
+    {
         $formFields = $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['required']
+            'password' => ['required'],
         ]);
 
-        if(auth()->attempt($formFields)) {
+        if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
 
             // Redirect based on user type
             if (auth()->user()->user_type == 'student') {
-                
+
                 return redirect()->route('student.index')->with('message', 'Welcome back! You are Logged in Successfully');
             } elseif (auth()->user()->user_type == 'company') {
                 return redirect()->route('company.index')->with('message', 'Welcome back! You are Logged in Successfully');
             }
-            
+
         }
 
         return back()->withErrors(['email' => 'Invalid email or password'])->onlyInput('email');
     }
-
 }

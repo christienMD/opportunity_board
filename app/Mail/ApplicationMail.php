@@ -13,9 +13,10 @@ use Illuminate\Queue\SerializesModels;
 class ApplicationMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
+
     public $mailContent;
     // protected $cvPath;
-    
+
     /**
      * Create a new message instance.
      */
