@@ -33,7 +33,7 @@ Route::controller(CompanyController::class)
           
           Route::get('/create', 'create')->name('create'); // show the create form
           
-          Route::post('', 'store')->name('store'); // save in the database
+          Route::post('/create', 'store')->name('store'); // save in the database
           
           Route::get('/{id}/publish', 'publish')->name('publish'); // publish opportunity
           
@@ -44,8 +44,11 @@ Route::controller(CompanyController::class)
           Route::get('/{opportunity}/edit', 'edit'); // showing the edit opportunity
           
           Route::put('/{opportunity}', 'update'); // update opp
+
           
         });
+
+Route::get('/opportunity/{id}', [CompanyController::class ,'show']);
 
 
 Route::controller(StudentController::class)

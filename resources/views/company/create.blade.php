@@ -65,6 +65,7 @@
         >
        {{old('description')}}
       </textarea>
+      {{-- <div id="editor" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"><div> --}}
         @error('description')
               <p class="text-error text-base">{{$message}}</p>
         @enderror
@@ -111,7 +112,9 @@
                     document.getElementById('imagePreview').style.display = 'none'; 
                 }
             }
-      </script>
+
+            </script>
+            
 
 <style>
     [x-cloak] { display: none !important; }
