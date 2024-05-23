@@ -10,7 +10,7 @@
  
             <div class="grid grid-cols-12">
                 <div class="w-full flex flex-col items-center justify-center col-span-12 md:col-span-5">
-                <form method="POST" action="{{ route('application.submit', $opportunity->id) }}"   x-data="{ isApplying: false, cvSizeError: false }"class="mb-2 w-80 max-w-screen-lg sm:w-96" enctype="multipart/form-data" novalidate>
+                <form method="POST" action="{{ route('student.submit', $opportunity->id) }}"   x-data="{ isApplying: false, cvSizeError: false }"class="mb-2 w-80 max-w-screen-lg sm:w-96" enctype="multipart/form-data" novalidate>
                     <div class="sm:col-span-3">
                         @csrf
 

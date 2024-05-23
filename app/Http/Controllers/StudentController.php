@@ -31,7 +31,7 @@ class StudentController extends Controller
             ->searchFilter(request(['search']))
             ->get();
 
-        return view('student_home', compact('opportunities'));
+        return view('student.index', compact('opportunities'));
     }
 
     // show application form
@@ -39,7 +39,7 @@ class StudentController extends Controller
     {
         $opportunity = Opportunity::findOrFail($id);
         $user = auth()->user();
-        return view('components.apply_form', compact('opportunity', 'user'));
+        return view('student.apply', compact('opportunity', 'user'));
     }
 
     

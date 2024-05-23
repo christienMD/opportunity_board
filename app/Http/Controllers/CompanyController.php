@@ -54,15 +54,15 @@ class CompanyController extends Controller
 
         $opportunity = new Opportunity;
         $opportunity->user_id = Auth::id();
-        $opportunity->title = $formFields('title');
-        $opportunity->category = $formFields('category');
-        $opportunity->description = $formFields('description');
+        $opportunity->title = $formFields['title'];
+        $opportunity->category = $formFields['category'];
+        $opportunity->description = $formFields['description'];
         $opportunity->img_url = url($path . '/' . $filename);
         $opportunity->status = 'Pending'; // default status when created
         $opportunity->closing_date = now()->addDays(30); // assuming 30 days is the required period
         $opportunity->save();
 
-        return redirect()->route('company_home')->with('message', 'Opportunity has been Successfully Created!!');
+        return redirect()->route('company.index')->with('message', 'Opportunity has been Successfully Created!!');
     }
 
 
@@ -101,7 +101,7 @@ class CompanyController extends Controller
           
         }
       
-        return redirect()->route('company_home')->with('message', 'Opportunity has been successfully published!');
+        return redirect()->route('company.index')->with('message', 'Opportunity has been successfully published!');
     }
 
     // publish opportunity
@@ -117,7 +117,7 @@ class CompanyController extends Controller
         $opportunity->published_at = now();
         $opportunity->save();
       
-        return redirect()->route('company_home')->with('message', 'Opportunity has been unpublished successfully!');
+        return redirect()->route('company.index')->with('message', 'Opportunity has been unpublished successfully!');
     }
 
     // delete opportunities
@@ -127,7 +127,7 @@ class CompanyController extends Controller
 
         if ($opportunity) {
             $opportunity->delete();
-            return redirect()->route('company_home')->with('message', 'Opportunity successfully deleted.');
+            return redirect()->route('company.index')->with('message', 'Opportunity successfully deleted.');
         } else {
             return redirect()->back()->withErrors('Opportunity not found.');
         }
@@ -143,7 +143,7 @@ class CompanyController extends Controller
    // update opportunities
     public function update(Request $request, Opportunity $opportunity): RedirectResponse
     {
-        $request->validate([
+        $formFields = $request->validate([
             'title' => ['required', 'min:6'],
             'category' => ['required'],
             'description' => ['required', 'min:60'],
@@ -151,9 +151,9 @@ class CompanyController extends Controller
         ]);
 
         // Update the existing opportunity
-        $opportunity->title = $request->input('title');
-        $opportunity->category = $request->input('category');
-        $opportunity->description = $request->input('description');
+        $opportunity->title = $formFields['title'];
+        $opportunity->category = $formFields['category'];
+        $opportunity->description = $formFields['description'];
 
         // Handle image upload
         if ($request->hasFile('img_upload')) {
@@ -167,7 +167,7 @@ class CompanyController extends Controller
 
         $opportunity->save();
 
-        return redirect()->route('company_home')->with('message', 'Opportunity updated successfully!');
+        return redirect()->route('company.index')->with('message', 'Opportunity updated successfully!');
     }
 
 }

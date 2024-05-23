@@ -17,12 +17,11 @@
             @foreach ($opportunities as $opportunity)
 
             <tr>
-              {{-- <td>{{ $opportunity->id }}</td> --}}
               <td class="max-w-[200px]">
                     <div class="flex items-center gap-3">
                         <div class="avatar">
                             <div class="mask mask-squircle w-12 h-12">
-                              <img src="{{ $opportunity->img_url }}" alt="{{ $opportunity->title }}" />
+                              <img src="{{ asset($opportunity->img_url) }}" alt="{{ $opportunity->title }}" />
                             </div>
                         </div>
                         <div>
@@ -43,7 +42,7 @@
 
               @if($opportunity->status === 'Pending')
                 {{-- publish --}}
-                <a href="{{ route('publish_opportunity', $opportunity->id) }}" x-data="{ isPublishing: false }">
+                <a href="{{ route('company.publish', $opportunity->id) }}" x-data="{ isPublishing: false }">
                   <button @click="isPublishing = true"  class="flex items-center justify-center  rounded-md bg-indigo-700 w-20 text-sm leading-6 text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-700">
                       <span class="pe-1" x-cloak x-show="!isPublishing">Publish</span>
                       <span x-cloak x-show="isPublishing" class="loading loading-dots loading-md"></span>
@@ -52,7 +51,7 @@
 
               @elseif($opportunity->status === 'Published')
                 {{-- un publish  --}}
-                <a href="{{ route('unpublish_opportunity', $opportunity->id) }}" x-data="{ isUnPublishing: false }">
+                <a href="{{ route('company.unpublish', $opportunity->id) }}" x-data="{ isUnPublishing: false }">
                   <button @click="isPublishing = true"  class="flex items-center justify-center  rounded-md bg-indigo-700 w-20 text-sm leading-6 text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-700">
                       <span class="pe-1" x-cloak x-show="!isUnPublishing">un publish</span>
                       <span x-cloak x-show="isUnPublishing" class="loading loading-dots loading-md"></span>
@@ -75,7 +74,7 @@
                           <p>Are you sure you want to delete this opportunity?this action cannot be undone.</p>
                         <div class="modal-action flex gap-3">
                           <button x-cloak x-show="!isDeleting" @click="isModalOpen = false" class="btn btn-sm btn-error text-white">Cancel</button>
-                              <a @click="isDeleting = true"  href="{{ route('delete_opportunity', $opportunity->id) }}" class="flex items-center justify-center rounded-md bg-indigo-600 px-3 w-20 text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 capitalize">
+                              <a @click="isDeleting = true"  href="{{ route('company.delete', $opportunity->id) }}" class="flex items-center justify-center rounded-md bg-indigo-600 px-3 w-20 text-sm font-semibold text-white shadow-sm hover:bg-indigo-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 capitalize">
                                 <span x-cloak x-show="!isDeleting">Delete</span>
                                 <span x-cloak x-show="isDeleting" class="loading loading-spinner loading-sm text-white"></span>
                               </a>

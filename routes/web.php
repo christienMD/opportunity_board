@@ -29,7 +29,7 @@ Route::controller(CompanyController::class)
       ->name('company.')
       ->group( function () {
           
-          Route::get('/company/home', 'home')->name('index');
+          Route::get('/company/home', 'index')->name('index');
           
           Route::get('/create', 'create')->name('create'); // show the create form
           
@@ -47,21 +47,7 @@ Route::controller(CompanyController::class)
           
         });
 
-/**
- * This route group handles the student application process for opportunities.
- * 
- * - GET /opportunities/{id}/apply
- *   Route::apply()
- *   Shows the application form for a specific opportunity.
- * 
- * - POST /opportunities/{id}/apply
- *   Route::submit()
- *   Submits the application form for a specific opportunity.
- * 
- * - GET /opportunities/application/success
- *   Route::success()
- *   Shows the application success page.
- */
+
 Route::controller(StudentController::class)
       ->prefix('opportunities')
       ->name('student.')
@@ -70,7 +56,7 @@ Route::controller(StudentController::class)
         
           Route::get('/{id}/apply', 'apply')->name('apply'); // showing the application form
           
-          Route::post('/{id}/apply', 'submit')->name('submit'); // send application form
+          Route::post('/{id}/submit', 'store')->name('submit'); // send application form
           
           Route::get('/application/success', 'success')->name('success'); // show the application success page
       });

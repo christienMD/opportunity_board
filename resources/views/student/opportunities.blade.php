@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="flex mt-3 justify-center">
-        <a href="{{ route('application_form', $opportunity->id) }}">
+        <a href="{{ route('student.apply', $opportunity->id) }}">
             <button class='px-20 py-1 text-medium text-white rounded-2xl bg-indigo-500 border hover:bg-indigo-700'>Apply</button>
         </a>
     </div>

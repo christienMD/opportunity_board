@@ -28,9 +28,9 @@
         </button>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
-        <a href="#" class="text-base font-semibold leading-6 text-gray-900 group-hover:text-indigo-600 hover:bg-gray-200 px-4 py-2 rounded-md">Product</a>
+        <a href="#" class="text-base font-semibold leading-6 text-gray-900 group-hover:text-indigo-600 hover:bg-gray-200 px-4 py-2 rounded-md">Products</a>
         <a href="#" class="text-base font-semibold leading-6 text-gray-900 group-hover:text-indigo-600 hover:bg-gray-200 px-4 py-2 rounded-md" >Features</a>
-        <a href="#" class="text-base font-semibold leading-6 text-gray-900 group-hover:text-indigo-600 hover:bg-gray-200 px-4 py-2 rounded-md">Marketplace</a>
+        <a href="#" class="text-base font-semibold leading-6 text-gray-900 group-hover:text-indigo-600 hover:bg-gray-200 px-4 py-2 rounded-md">About Us</a>
         <a href="#" class="text-base font-semibold leading-6 text-gray-900 group-hover:text-indigo-600 hover:bg-gray-200 px-4 py-2 rounded-md">Company</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-1">
@@ -145,7 +145,7 @@
 </div>
 <div class="bg-white">
 
-  @include('components.com_opportunities')
+  @include('company.opportunities')
   @include('components.toast_')
 </div>
 

@@ -13,7 +13,7 @@
     <div class="mb-6">
         <div class="w-full flex flex-col items-center justify-center mt-6">
         <h1 class="text-xl font-bold text-center py-4">Create A New Opportunity</h1>
-       <form method="POST" x-data="{ isCreating: false }" action="{{ route('company.save') }}" class="mb-2 w-80 max-w-screen-lg sm:w-96" enctype="multipart/form-data">
+       <form method="POST" x-data="{ isCreating: false }" action="{{ route('company.store') }}" class="mb-2 w-80 max-w-screen-lg sm:w-96" enctype="multipart/form-data">
           @csrf
         <div class="sm:col-span-3">
 
@@ -37,13 +37,13 @@
           </div>
              
         <div id="category" class="my-4">
-          <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Category</label>
+          <label for="category" class="block text-sm  capitalizefont-medium leading-6 text-gray-900">Category</label>
           <div class="w-full mt-1">
             <select name="category" id="category" title="category" class="block outline-none w-full text-base rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-              <option>Select Category</option>
-              <option>Volunteer</option>
-              <option>Internship</option>
-              <option>Job</option>
+              <option value="">Select Category</option>
+              <option value="Volunteer">Volunteer</option>
+              <option value="Internship">Internship</option>
+              <option value="Job">Job</option>
             </select>
           </div>
           @error('category')
@@ -53,8 +53,8 @@
 
         {{-- decription --}}
         <div>
-        <label for="description" class=''>
-           opportunity decription
+        <label for="description" class='block text-sm capitalize font-medium leading-6 text-gray-900'>
+           Opportunity decription
          </label>
          <textarea
           
@@ -72,14 +72,14 @@
 
         {{-- image --}}
         <div class="my-4">
-           <label for="img_upload" class="">Uploade Image</label>
-           <input class="mt-1" type="file" id="img_upload" name="img_upload" accept=".png , .jpg , .jpeg" onchange="previewImage(event)">
+           <label for="img_upload" class="block text-sm font-medium leading-6 text-gray-900">Uploade Image</label>
+           <input class="mt-1" type="file" id="img_upload" name="img_url" accept=".png , .jpg , .jpeg" onchange="previewImage(event)">
 
-           <div class="py-4">
-              
-                <img id="imagePreview"  class="w-48" src="#" alt="Your image will appear here" style="display: none; height: 125px;"/>
+           <div class="py-4"> 
+                <img id="imagePreview"  class="w-48" src="" alt="Your image will appear here" style="display: none; height: 125px;"/>
            </div>
-            @error('img_upload')
+           
+            @error('img_url')
              <p class="text-error text-base">{{$message}}</p>
             @enderror
         </div>

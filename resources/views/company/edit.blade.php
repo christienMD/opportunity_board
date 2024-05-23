@@ -42,10 +42,6 @@
             <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Category</label>
             <div class="w-full mt-1">
                 <select name="category" id="category" title="category" class="block outline-none w-full text-base rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                {{-- <option>Select Category</option>
-                <option>Volunteer</option>
-                <option>Internship</option>
-                <option>Job</option> --}}
                  <option value="">Select Category</option>
             @foreach($categories as $category)
                 <option value="{{ $category }}" {{ $category == $opportunity->category ? 'selected' : '' }}>{{ $category }}</option>
@@ -79,13 +75,12 @@
         {{-- image --}}
         <div class="my-4">
            <label for="img_upload" class="">Uploade Image</label>
-           <input class="mt-1" type="file" id="img_upload" name="img_upload" onchange="previewImage(event)">
+           <input class="mt-1" type="file" id="img_upload" name="img_url" onchange="previewImage(event)" accept=".png , .jpg ,.jpeg">
 
            <div class="py-4">
               
-             <img id="imagePreview" class="w-48" src="{{ $opportunity->img_url ? asset($opportunity->img_url) : '' }}" alt="Your image will appear here" style="{{ $opportunity->img_url ? 'height: 120px;' : 'display: none;' }}">
+             <img id="imagePreview" class="w-48"  src="{{ $opportunity->img_url ? asset($opportunity->img_url) : '' }}" alt="Your image will appear here" style="{{ $opportunity->img_url ? 'height: 120px;' : 'display: none;' }}">
 
-                {{-- <img id="imagePreview"  class="w-48" src="{{$opportunity->img_url}}" alt="Your image will appear here" style="display: none; height: 120px;"/> --}}
            </div>
             @error('img_upload')
              <p class="text-error text-base">{{$message}}</p>

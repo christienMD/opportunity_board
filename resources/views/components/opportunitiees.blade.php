@@ -9,7 +9,7 @@
             <div class="flex gap-3">
                 <div class="rounded-xl h-36 w-40 flex justify-center items-center"> 
                     {{--image--}}
-                    <img src="{{ $opportunity->img_url }}" alt="Image for {{ $opportunity->title }}" class="rounded-xl h-36 w-40 object-cover">
+                    <img src="{{ asset($opportunity->img_url) }}" alt="Image for {{ $opportunity->title }}" class="rounded-xl h-36 w-40 object-cover">
                 </div>
                 <div class="flex-1">
                     <div class="flex flex-col gap-2">
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="flex mt-3 justify-center">
-                <a href="{{ route('application_form', $opportunity->id) }}">
+                <a href="{{ route('student.apply', $opportunity->id) }}">
                     <button class='px-20 py-1 text-medium text-white rounded-2xl bg-indigo-500 border hover:bg-indigo-700'>Apply</button>
                 </a>
             </div>

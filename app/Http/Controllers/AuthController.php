@@ -3,26 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
     // show signup form
-    public function signup()
+    public function signup(): View
     {
         return view('auth.signup');
     }
 
     // show login form
-    public function login()
+    public function login(): View
     {
         return view('auth.login');
     }
 
 
   // register users
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
 
         $formFields = $request->validate([
@@ -56,14 +58,15 @@ class AuthController extends Controller
 
         // Redirect based on user type
         if ($user->user_type == 'student') {
-            return redirect()->route('student_home')->with('message', 'Your account has been created Successfuly!');
+            return redirect()->route('student.index')->with('message', 'Your account has been created Successfuly!');
         } elseif ($user->user_type == 'company') {
-            return redirect()->route('company_home')->with('message', 'Your account has been Successfully created!');
+            return redirect()->route('company.index')->with('message', 'Your account has been Successfully created!');
         }
     }
 
     // log out user
-    public function logout(Request $request) {
+    public function logout(Request $request): RedirectResponse
+     {
          auth()->logout();
 
          $request->session()->invalidate();
@@ -73,7 +76,8 @@ class AuthController extends Controller
     }
 
     // log user in (authenticate user)
-    public function authenticate(Request $request) {
+    public function authenticate(Request $request): RedirectResponse
+     {
         $formFields = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required']
@@ -85,9 +89,9 @@ class AuthController extends Controller
             // Redirect based on user type
             if (auth()->user()->user_type == 'student') {
                 
-                return redirect()->route('student_home')->with('message', 'Welcome back! You are Logged in Successfully');
+                return redirect()->route('student.index')->with('message', 'Welcome back! You are Logged in Successfully');
             } elseif (auth()->user()->user_type == 'company') {
-                return redirect()->route('company_home')->with('message', 'Welcome back! You are Logged in Successfully');
+                return redirect()->route('company.index')->with('message', 'Welcome back! You are Logged in Successfully');
             }
             
         }
