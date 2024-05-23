@@ -17,7 +17,12 @@ use Illuminate\Http\RedirectResponse;
 
 class CompanyController extends Controller
 {
-    // show the home page
+
+    /**
+     * Display a listing of the company's opportunities.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index(): View
     {
         $opportunities = Opportunity::where('user_id', Auth::id())->get();
@@ -26,7 +31,11 @@ class CompanyController extends Controller
     }
 
 
-    // show create form
+    /**
+     * Display the form for creating a new opportunity.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function create(): View
     {
         return view('company.create');
@@ -34,7 +43,12 @@ class CompanyController extends Controller
 
 
 
-    // save opportunities in the database
+    /**
+     * Handle the form submission for creating a new opportunity.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request): RedirectResponse
     {
        $formFields = $request->validate([
@@ -68,7 +82,12 @@ class CompanyController extends Controller
 
 
 
-    // publish opportunity
+    /**
+     * Publish an opportunity.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function publish(int $id): RedirectResponse
     {
         $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
@@ -105,7 +124,12 @@ class CompanyController extends Controller
         return redirect()->route('company.index')->with('message', 'Opportunity has been successfully published!');
     }
 
-    // publish opportunity
+    /**
+     * Unpublish the an opportunity.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function unpublish(int $id): RedirectResponse
     {
         $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
@@ -121,7 +145,12 @@ class CompanyController extends Controller
         return redirect()->route('company.index')->with('message', 'Opportunity has been unpublished successfully!');
     }
 
-    // delete opportunities
+    /**
+     * Delete an opportunity.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(int $id): RedirectResponse
     {
         $opportunity = Opportunity::where('id', $id)->where('user_id', Auth::id())->first();
@@ -134,14 +163,26 @@ class CompanyController extends Controller
         }
     }
 
-   // show edit form
+    /**
+     * Display the form for editing an opportunity.
+     *
+     * @param  \App\Models\Opportunity  $opportunity
+     * @return \Illuminate\Contracts\View\View
+     */
    public function edit(Opportunity $opportunity): View {
         //   dd($opportunity);
         $categories = ['Volunteer', 'Internship', 'Job'];
       return view('company.edit', ['opportunity' => $opportunity, 'categories' => $categories]);
    }
 
-   // update opportunities
+
+    /**
+     * Update an opportunity.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Opportunity  $opportunity
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Opportunity $opportunity): RedirectResponse
     {
         $formFields = $request->validate([
@@ -171,6 +212,12 @@ class CompanyController extends Controller
         return redirect()->route('company.index')->with('message', 'Opportunity updated successfully!');
     }
 
+    /**
+     * Display a specific opportunity in JSON format.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
         public function show(int $id): JsonResponse
         {
             $opportunity = Opportunity::with('company')->findOrFail($id);

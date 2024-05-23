@@ -10,20 +10,33 @@ use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
-    // show signup form
+    /**
+     * Display the signup form for new users.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function signup(): View
     {
         return view('auth.signup');
     }
 
-    // show login form
+    /**
+     * Display the login form for existing users.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function login(): View
     {
         return view('auth.login');
     }
 
 
-  // register users
+    /**
+     * Store a new user in the database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request): RedirectResponse
     {
 
@@ -64,7 +77,12 @@ class AuthController extends Controller
         }
     }
 
-    // log out user
+    /**
+     * Log out the current user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request): RedirectResponse
      {
          auth()->logout();
@@ -75,7 +93,12 @@ class AuthController extends Controller
          return redirect('/')->with('message', 'You have been Logged Out.');
     }
 
-    // log user in (authenticate user)
+    /**
+     * Authenticate an existing user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function authenticate(Request $request): RedirectResponse
      {
         $formFields = $request->validate([

@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
 {
+
+    /**
+     * Display a listing of opportunities for students.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index(): View
     {
         // Redirect to login if the user is not authenticated
@@ -34,7 +40,12 @@ class StudentController extends Controller
         return view('student.index', compact('opportunities'));
     }
 
-    // show application form
+    /**
+     * Display the application form for an opportunity.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Contracts\View\View
+     */
     public function apply(int $id) : View
     {
         $opportunity = Opportunity::findOrFail($id);
@@ -42,7 +53,13 @@ class StudentController extends Controller
         return view('student.apply', compact('opportunity', 'user'));
     }
 
-    
+
+    /**
+     * Store a new application for a specific opportunity.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request): RedirectResponse
     {
 
@@ -116,7 +133,11 @@ class StudentController extends Controller
         }
     }
 
-    // show application success page
+    /**
+     * Display the application success page.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function success(): View
     {
         return view('student.success');

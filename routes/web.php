@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'welcome'])->name('welcome');
 
+
+/**
+ * Auth Controller.
+ *
+ * Manage Authentication
+ */
 Route::controller(AuthController::class)
       ->name('auth.')
       ->group(function () {
@@ -22,14 +28,19 @@ Route::controller(AuthController::class)
           Route::get('/login', 'login')->name('login'); // show login form
           
           Route::post('/users/authenticate', 'authenticate')->name('authenticate'); // log users in
-      });
+        });
 
+/**
+ * Company Controller.
+ *
+ * Manage all company operations
+ */      
+Route::get('/company/home', [CompanyController::class ,'index'])->name('index');
 Route::controller(CompanyController::class)
       ->prefix('opportunities')
       ->name('company.')
       ->group( function () {
           
-          Route::get('/company/home', 'index')->name('index');
           
           Route::get('/create', 'create')->name('create'); // show the create form
           
@@ -45,17 +56,20 @@ Route::controller(CompanyController::class)
           
           Route::put('/{opportunity}', 'update'); // update opp
 
-          
         });
-
 Route::get('/opportunity/{id}', [CompanyController::class ,'show']);
 
 
+/**
+ * Student Controller.
+ *
+ * Manage all student operations
+ */
+Route::get('/students/home', [StudentController::class ,'index'])->name('index');
 Route::controller(StudentController::class)
       ->prefix('opportunities')
       ->name('student.')
       ->group( function () { 
-          Route::get('/students/home', 'index')->name('index');
         
           Route::get('/{id}/apply', 'apply')->name('apply'); // showing the application form
           
