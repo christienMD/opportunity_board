@@ -17,7 +17,25 @@ class OpportunityFactory extends Factory
     public function definition(): array
     {
         return [
-            
+            'title' => fake()->sentence(),
+            'description' => fake()->paragraph(),
+            'img_url' => fake()->imageUrl(),
+            'category' => fake()->randomElement(['Job', 'Internship', 'Volunteer']),
+            'status' => 'Pending',
+            'closing_date' => fake()->optional()->date(),
+            'published_at' => fake()->optional()->dateTime(),
+            'user_id' => fake()->numberBetween(1, 10),
         ];
     }
+
+        /**
+         * Indicate that the opportunity is Published.
+         */
+        public function published(): static
+        {
+            return $this->state(fn (array $attributes) => [
+                'status' => 'Published',
+                'published_at' => now(),
+            ]);
+        }
 }

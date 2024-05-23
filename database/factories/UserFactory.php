@@ -23,11 +23,14 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $userType = fake()->randomElement(['student','company']);
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
+            'phone_number' => fake()->phoneNumber(),
             'password' => static::$password ??= Hash::make('password'),
+            'user_type' => $userType,
+            'category' => ($userType === 'student') ? fake()->randomElement(['Job','Internship', 'Volunteer']) : null ,
             'remember_token' => Str::random(10),
         ];
     }
@@ -35,10 +38,19 @@ class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      */
-    public function unverified(): static
+    public function student(): static
     {
         return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
+            'user_type' => 'student',
+            'category' => fake()->randomElement(['Job', 'Internship', 'Volunteer']),
+        ]);
+    }
+
+    public function company(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'user_type' => 'company',
+            'category' => null,
         ]);
     }
 }
