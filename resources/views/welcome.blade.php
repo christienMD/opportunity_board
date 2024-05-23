@@ -1,4 +1,4 @@
-@extends('layouts.landing_page')
+@extends('layouts.app')
 @section('header')
  <nav class="flex items-center justify-between h-14 border border-b shadow-sm px-6 bg-gradient-to-t from-indigo-50 to-white">
         <div>@include('components.logo')</div>
