@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('img_url', 255);
             $table->enum('category', ['Job', 'Internship', 'Volunteer']);
-            $table->enum('status', ['Pending', 'Published', 'Closed'])->default('Pending');
+            $table->enum('status', ['Pending', 'Published'])->default('Pending');
             $table->date('closing_date')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->unsignedBigInteger('user_id');
