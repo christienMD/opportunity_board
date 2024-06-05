@@ -24,6 +24,7 @@ class Opportunity extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+
     // search filter
     public function scopeSearchFilter($query, $filters)
     {

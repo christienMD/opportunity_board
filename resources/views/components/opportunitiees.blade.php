@@ -1,54 +1,52 @@
    {{-- display opportunities on the landing page --}}
-<div class="grid lg:grid-cols-2 px-2" >
+<div class="grid md:grid-cols-12 px-2">
     {{-- all opportunities --}}
-    <div class="w-full">
-        <div class="p-3 pb-0">
-        <div class="tooltip tooltip-open tooltip-top p-0 m-0" data-tip="click here to view details">
-            @foreach ($opportunities as $opportunity)
-                <div id="opportunity-{{ $opportunity->id }}" class="card w-full md:max-w-xl shadow-sm mb-6 bg-gray-100 border border-gray-200 cursor-pointer opportunity-card">
-                <div class="card-body">
+    <div class="col-span-5 p-10 pb-0">
+        <div class="">
+          @foreach ($opportunities as $opportunity)
+            <div id="opportunity-{{ $opportunity->id }}" class="card w-full md:max-w-xl mb-6 bg-gray-50 border border-gray-50 cursor-pointer opportunity-card">
+              <div class="card-body">
                 <div class="flex gap-3">
-                    <div class="rounded-xl h-36 w-40 flex justify-center items-center">
+                    <div class="rounded-xl h-[100px] w-[100px] flex justify-center items-center">
                         {{--image--}}
-                        <img src="{{ asset($opportunity->img_url) }}" alt="Image for {{ $opportunity->title }}" class="rounded-xl h-36 w-40 object-cover">
+                        <img src="{{ asset($opportunity->img_url) }}" alt="Image for {{ $opportunity->title }}" class="rounded-xl h-[100px] w-[100px] object-cover">
                     </div>
                     <div class="flex-1">
                         <div class="flex flex-col gap-2">
-                            <h2 class="font-bold capitalize text-2xl md:text-3xl text-gray-800">{{ $opportunity->title }}</h2>
-                            <p class="line-clamp-3 text-base">
-                        {{ $opportunity->description }}
+                            <h2 class="font-bold capitalize text-lg text-gray-800">{{ $opportunity->title }}</h2>
+                            <p class="line-clamp-3 text-sm">
+                              {{ $opportunity->description }}
                             </p>
-                            <div class="flex justify-between">
-                                <div class="bg-indigo-100 text-indigo-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-indigo-400 border border-indigo-400">{{ $opportunity->category }}</div>
-                                <div class="text-sm font-medium italic">
-                                    posted
-                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
-                                        <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
-                                        </svg>
-                                        {{ $opportunity->published_at->diffForHumans() }}</span></div>
-                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="flex mt-3 justify-center">
+                <div class="flex justify-between mt-1">
+                    <div class="bg-indigo-100 text-indigo-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-indigo-400 border border-indigo-400">{{ $opportunity->category }}</div>
+                    <div class="text-sm font-medium italic">
+                        posted
+                        <span class="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded me-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
+                            <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
+                            </svg>
+                        {{ $opportunity->published_at->diffForHumans() }}</span></div>
+                </div>
+                <div class="flex mt-2 justify-center">
                     <a href="{{ route('student.apply', $opportunity->id) }}">
-                        <button class='px-20 py-1 text-medium text-white rounded-2xl bg-indigo-500 border hover:bg-indigo-700'>Apply</button>
+                        <button class='px-16 py-1 text-medium text-white rounded-2xl bg-indigo-500 border hover:bg-indigo-700'>Apply</button>
                     </a>
                 </div>
-                </div>
-                </div>
-            @endforeach
-        </div>
-     </div>
+              </div>
+            </div>
+          @endforeach
+       </div>
 
      <div class="p-4 mb-10 px-8">{{ $opportunities->links() }}</div>
     </div>
 
     {{-- opportunity details --}}
-    <div class="sticky top-[20rem] right-0">
-        <div id="opportunity-details" class="h-screen relative overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] dark:before:bg-[url('https://preline.co/assets/svg/examples-dark/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
-            <div class="flex flex-col gap-2 justify-center items-center">
+    <div class="col-span-7 border-s h-screen">
+        <div id="opportunity-details" class="px-6">
+            <div class="flex flex-col gap-2 justify-center items-center py-7 relative overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] dark:before:bg-[url('https://preline.co/assets/svg/examples-dark/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:size-full before:-z-[1] before:transform before:-translate-x-1/2">
                 <div class="mt-3">@include('components.logo')</div>
                 <h1>Browse Opportunities That Match Your Career From Top Companies</h1>
                 <div class="flex md:flex justify-center items-center mt-10 w-full gap-10">

@@ -2,9 +2,9 @@
 
 @section('content')
 
-<div class="h-screen bg-gradient-to-t from-indigo-600 to-white">
+<div class="h-screen bg-gradient-to-t from-indigo-600 to-indigo-100 pt-8">
   
-    <div class="mt-8 flex flex-col items-center mb-4">
+    <div class="flex flex-col items-center mb-4">
         <h1 class="text-center text-xl capitalize mb-2"><span class="text-3xl text-indigo-900 font-bold">LOGIN</span> To Opportunity Board</h1>
     </div>
 

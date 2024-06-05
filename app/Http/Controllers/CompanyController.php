@@ -108,7 +108,7 @@ class CompanyController extends Controller
     }
 
     /**
-     * Unpublish the an opportunity.
+     * Unpublish an opportunity.
      */
     public function unpublish(int $id): RedirectResponse
     {
