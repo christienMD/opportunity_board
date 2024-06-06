@@ -7,6 +7,8 @@ use App\Http\Resources\OpportunityResource;
 use App\Http\Traits\CanLoadRelationships;
 use App\Models\Opportunity;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class OpportunityController extends Controller
 {
@@ -14,13 +16,18 @@ class OpportunityController extends Controller
     use CanLoadRelationships;
 
     private array $relations = ['company'];
-    
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index','show']);
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
-      
+
         $query = $this->loadRelationships(Opportunity::query());
 
         return OpportunityResource::collection(
@@ -33,7 +40,7 @@ class OpportunityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): OpportunityResource
     {
 
 
@@ -44,7 +51,7 @@ class OpportunityController extends Controller
                 'description' => ['required', 'min:60'],
                 // 'img_upload' => ['required', 'string'],
             ]),
-            'user_id' => 2
+            'user_id' => $request->user()->id
         ]);
 
         return new OpportunityResource($this->loadRelationships($opportunity));
@@ -53,7 +60,7 @@ class OpportunityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Opportunity $opportunity)
+    public function show(Opportunity $opportunity): OpportunityResource
     {
         return new OpportunityResource($this->loadRelationships($opportunity));
     }
@@ -61,7 +68,7 @@ class OpportunityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Opportunity $opportunity)
+    public function update(Request $request, Opportunity $opportunity): OpportunityResource
     {
         $opportunity->update(
             $request->validate([
@@ -78,7 +85,7 @@ class OpportunityController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Opportunity $opportunity)
+    public function destroy(Opportunity $opportunity): Response
     {
         $opportunity->delete();
 
