@@ -4,18 +4,31 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OpportunityResource;
+use App\Http\Traits\CanLoadRelationships;
 use App\Models\Opportunity;
 use Illuminate\Http\Request;
 
 class OpportunityController extends Controller
 {
+
+    use CanLoadRelationships;
+
+    private array $relations = ['company'];
+    
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return OpportunityResource::collection(Opportunity::with('company')->get());
+      
+        $query = $this->loadRelationships(Opportunity::query());
+
+        return OpportunityResource::collection(
+            $query->latest()->paginate()
+        );
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -31,10 +44,10 @@ class OpportunityController extends Controller
                 'description' => ['required', 'min:60'],
                 // 'img_upload' => ['required', 'string'],
             ]),
-            'user_id' => 1
+            'user_id' => 2
         ]);
 
-        return new OpportunityResource($opportunity);
+        return new OpportunityResource($this->loadRelationships($opportunity));
     }
 
     /**
@@ -42,7 +55,7 @@ class OpportunityController extends Controller
      */
     public function show(Opportunity $opportunity)
     {
-        return new OpportunityResource($opportunity);
+        return new OpportunityResource($this->loadRelationships($opportunity));
     }
 
     /**
@@ -59,7 +72,7 @@ class OpportunityController extends Controller
             ]),
         );
 
-        return new OpportunityResource($opportunity);
+        return new OpportunityResource($this->loadRelationships($opportunity));
     }
 
     /**
