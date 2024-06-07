@@ -23,6 +23,7 @@ class OpportunityResource extends JsonResource
             'category' => $this->category,
             'created_at' => $this->created_at,
             'closing_date' => $this->closing_date,
+            'published_at' => $this->published_at,
             'user' => new UserResource($this->whenLoaded('company'))
         ];
     }

@@ -7,6 +7,7 @@ use App\Http\Resources\OpportunityResource;
 use App\Http\Traits\CanLoadRelationships;
 use App\Models\Opportunity;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -47,7 +48,7 @@ class OpportunityController extends Controller
 
         // Sort by date posted
         $sortOrder = $request->input('sort', 'desc');
-        $query->orderBy('created_at', $sortOrder);
+        $query->orderBy('published_at', $sortOrder);
         /**
          * Filter by start_date and end_date 
          * 
@@ -133,6 +134,68 @@ class OpportunityController extends Controller
 
         return new OpportunityResource($this->loadRelationships($opportunity));
     }
+
+    /**
+     * published an opportunity.
+     */
+    public function publish(int $id): JsonResponse
+    {
+        $opportunity = Opportunity::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$opportunity) {
+            return response()->json(
+                ['message' => 'Opportunity not found.'], 404);
+        }
+
+        // Check if the opportunity is already published
+        if ($opportunity->status === 'Published') {
+            return response()->json(
+                ['message' => 'Opportunity is already published.'],
+                400
+            );
+        }
+
+        $opportunity->status = 'Published';
+        $opportunity->published_at = now();
+        $opportunity->save();
+
+        return response()->json(['message' => 'Opportunity published successfully.'], 200);
+    }
+
+
+    /**
+     * Unpublish a published opportunity.
+     */
+    public function unpublish(int $id): JsonResponse
+    {
+        $opportunity = Opportunity::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$opportunity) {
+            return response()->json(
+                ['message' => 'Opportunity not found.'],
+                404
+            );
+        }
+
+        // Check if the opportunity is not published
+        if ($opportunity->status !== 'Published') {
+            return response()->json(
+                ['message' => 'Opportunity is not currently published.'],
+                400
+            );
+        }
+
+        $opportunity->status = 'Pending';
+        $opportunity->published_at = null;
+        $opportunity->save();
+
+        return response()->json(['message' => 'Opportunity unpublished successfully.'], 200);
+    }
+
 
     /**
      * Remove the specified resource from storage.

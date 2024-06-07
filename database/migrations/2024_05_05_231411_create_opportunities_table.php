@@ -19,7 +19,6 @@ return new class extends Migration
             $table->enum('category', ['Job', 'Internship', 'Volunteer']);
             $table->enum('status', ['Pending', 'Published'])->default('Pending');
             $table->date('closing_date')->nullable();
-            $table->timestamp('published_at')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

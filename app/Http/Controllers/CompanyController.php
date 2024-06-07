@@ -119,7 +119,6 @@ class CompanyController extends Controller
         }
 
         $opportunity->status = trim('Pending');
-        $opportunity->published_at = now();
         $opportunity->save();
 
         return redirect()->route('company.index')->with('message', 'Opportunity has been unpublished successfully!');

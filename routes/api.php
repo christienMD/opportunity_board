@@ -27,6 +27,14 @@ Route::controller(AuthController::class)
  * Manage opportunities
  */
 Route::apiResource('opportunities', OpportunityController::class);
+Route::controller(OpportunityController::class)
+    ->group(function () {
+
+        Route::post('opportunities/{id}/publish', 'publish')
+            ->middleware('auth:sanctum');
+        Route::post('opportunities/{id}/unpublish', 'unpublish')
+            ->middleware('auth:sanctum');
+    });
 
 /**
  * Manage applications
