@@ -48,10 +48,6 @@ class OpportunityController extends Controller
         // Sort by date posted
         $sortOrder = $request->input('sort', 'desc');
         $query->orderBy('created_at', $sortOrder);
-
-
-
-
         /**
          * Filter by start_date and end_date 
          * 
@@ -94,7 +90,7 @@ class OpportunityController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in the database.
      */
     public function store(Request $request): OpportunityResource
     {
