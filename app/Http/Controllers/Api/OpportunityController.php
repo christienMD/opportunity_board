@@ -3,25 +3,30 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreOpportunityRequest;
+use App\Http\Requests\UpdateOpportunityRequest;
 use App\Http\Resources\OpportunityResource;
 use App\Http\Traits\CanLoadRelationships;
 use App\Models\Opportunity;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class OpportunityController extends Controller
 {
 
-    use CanLoadRelationships;
+    use CanLoadRelationships, AuthorizesRequests;
 
     private array $relations = ['company'];
 
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except(['index','show']);
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+        $this->authorizeResource(Opportunity::class, 'opportunity');
     }
 
     /**
@@ -93,17 +98,18 @@ class OpportunityController extends Controller
     /**
      * Store a newly created resource in the database.
      */
-    public function store(Request $request): OpportunityResource
+    public function store(StoreOpportunityRequest $request): OpportunityResource
     {
 
+        $validatedFields = $request->validated();
 
         $opportunity = Opportunity::create([
-            ...$request->validate([
-                'title' => ['required', 'min:6'],
-                'category' => ['required', 'string', 'in:job,internship,volunteer'],
-                'description' => ['required', 'min:60'],
-                // 'img_upload' => ['required', 'string'],
-            ]),
+
+            'title' => $validatedFields['title'],
+            'category' => $validatedFields['category'],
+            'description' => $validatedFields['description'],
+            // 'img_upload' => $validatedFields['img_upload'],
+
             'user_id' => $request->user()->id
         ]);
 
@@ -121,16 +127,21 @@ class OpportunityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Opportunity $opportunity): OpportunityResource
+    public function update(UpdateOpportunityRequest $request, Opportunity $opportunity): OpportunityResource
     {
-        $opportunity->update(
-            $request->validate([
-                'title' => ['sometimes', 'min:6'],
-                'category' => ['sometimes', 'string', 'in:job,internship,volunteer'],
-                'description' => ['sometimes', 'min:60'],
-                'img_upload' => ['sometimes', 'string'],
-            ]),
-        );
+
+        Log::info('Attempting to authorize update for opportunity ID: ' . $opportunity->id . ' by user ID: ' . auth()->id());
+        
+        $this->authorize('update', $opportunity);
+
+        $validatedFields = $request->validated();
+
+        $opportunity->update([
+            'title' => $validatedFields['title'],
+            'category' => $validatedFields['category'],
+            'description' => $validatedFields['description'],
+            'img_upload' => $validatedFields['img_upload'],
+        ]);
 
         return new OpportunityResource($this->loadRelationships($opportunity));
     }
@@ -146,7 +157,9 @@ class OpportunityController extends Controller
 
         if (!$opportunity) {
             return response()->json(
-                ['message' => 'Opportunity not found.'], 404);
+                ['message' => 'Opportunity not found.'],
+                404
+            );
         }
 
         // Check if the opportunity is already published

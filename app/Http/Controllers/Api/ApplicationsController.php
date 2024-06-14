@@ -27,10 +27,8 @@ class ApplicationsController extends Controller
     {
         $validatedFields = $request->validated();
 
-        $userId = $validatedFields['user_id'] ?? optional($request->user())->id;
-
         $application = Application::create([
-            'user_id' => $userId,
+            'user_id' => auth()->id(),
             'name' => $validatedFields['name'],
             'email' => $validatedFields['email'],
             'phone_number' => $validatedFields['phone_number'],

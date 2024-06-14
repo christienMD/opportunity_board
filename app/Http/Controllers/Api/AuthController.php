@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SignupUserRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +19,7 @@ class AuthController extends Controller
     {
         $validatedFields = $request->validated();
 
-        $user = \App\Models\User::create([
+        $user = User::create([
             'name' => $validatedFields['name'],
             'email' => $validatedFields['email'],
             'password' => Hash::make($validatedFields['password']),
@@ -28,7 +30,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'User registered successfully',
-            'user' => $user
+            'user' => new UserResource($user)
         ], 201);
     }
 
@@ -39,7 +41,7 @@ class AuthController extends Controller
             'password' => ['required', 'min:8']
         ]);
 
-        $user = \App\Models\User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         if (!$user) {
             throw ValidationException::withMessages([
@@ -56,8 +58,13 @@ class AuthController extends Controller
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
-            'token' => $token
+            'token' => $token ,
+            'authenticated user' => new UserResource($user)
         ]);
+    }
+
+    public function profile(Request $request) {
+        return new UserResource($request->user());
     }
 
     public function logout(Request $request): JsonResponse

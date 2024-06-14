@@ -5,23 +5,24 @@ namespace App\Policies;
 use App\Models\Opportunity;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Log;
 
 class OpportunityPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        //
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Opportunity $opportunity): bool
+    public function view(?User $user, Opportunity $opportunity): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +30,7 @@ class OpportunityPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +38,7 @@ class OpportunityPolicy
      */
     public function update(User $user, Opportunity $opportunity): bool
     {
-        //
+        return $user->id === $opportunity->user_id;
     }
 
     /**
@@ -45,7 +46,9 @@ class OpportunityPolicy
      */
     public function delete(User $user, Opportunity $opportunity): bool
     {
-        //
+       
+        return $user->id === $opportunity->user_id;
+    
     }
 
     /**

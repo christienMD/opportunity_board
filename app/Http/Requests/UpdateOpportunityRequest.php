@@ -4,14 +4,15 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubmitApplicationRequest extends FormRequest
+class UpdateOpportunityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        $opportunity = $this->route('opportunity');
+        return $opportunity && auth()->user()->can('update', $opportunity);
     }
 
     /**
@@ -22,12 +23,10 @@ class SubmitApplicationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:4',
-            'email' => 'required|email',
-            'phone_number' => 'required|string',
-            'message' => 'required|string',
-            // 'cv_upload' => 'required|file|mimes:pdf|max:1014',
-            'opportunity_id' => 'required|exists:opportunities,id',
+            'title' => ['sometimes', 'min:6'],
+            'category' => ['sometimes', 'string', 'in:job,internship,volunteer'],
+            'description' => ['sometimes', 'min:60'],
+            'img_upload' => ['sometimes', 'string'],
         ];
     }
 }
