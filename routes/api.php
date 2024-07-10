@@ -27,11 +27,12 @@ Route::controller(AuthController::class)
 Route::apiResource('opportunities', OpportunityController::class);
 Route::controller(OpportunityController::class)
     ->group(function () {
-
         Route::post('opportunities/{id}/publish', 'publish')
-            ->middleware('auth:sanctum');
+            ->middleware('auth:sanctum')
+            ->name('opportunities.publish');
         Route::post('opportunities/{id}/unpublish', 'unpublish')
-            ->middleware('auth:sanctum');
+            ->middleware('auth:sanctum')
+            ->name('opportunities.unpublish');
     });
 
 /**

@@ -98,7 +98,8 @@ class OpportunityControllerTest extends TestCase
     {
         $this->actingAs($this->companyUser);
 
-        $response = $this->postJson("/api/opportunities/{$this->opportunity->id}/publish");
+        $response = $this->postJson(route('opportunities.publish', $this->opportunity->id));
+        // $response = $this->postJson("/api/opportunities/{$this->opportunity->id}/publish");
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Opportunity published successfully.']);
@@ -116,7 +117,8 @@ class OpportunityControllerTest extends TestCase
         // First, publish the opportunity
         $this->opportunity->update(['status' => 'Published']);
 
-        $response = $this->postJson("/api/opportunities/{$this->opportunity->id}/unpublish");
+        // $response = $this->postJson("/api/opportunities/{$this->opportunity->id}/unpublish");
+        $response = $this->postJson(route('opportunities.unpublish', $this->opportunity->id));
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Opportunity unpublished successfully.']);
@@ -185,7 +187,7 @@ class OpportunityControllerTest extends TestCase
 
         $response->assertStatus(403);
 
-        
+
         $this->assertDatabaseMissing('opportunities', [
             'id' => $opportunity->id,
             'title' => $updatedData['title'],
