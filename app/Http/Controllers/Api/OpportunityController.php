@@ -130,7 +130,6 @@ class OpportunityController extends Controller
     public function update(UpdateOpportunityRequest $request, Opportunity $opportunity): OpportunityResource
     {
 
-        Log::info('Attempting to authorize update for opportunity ID: ' . $opportunity->id . ' by user ID: ' . auth()->id());
         
         $this->authorize('update', $opportunity);
 
@@ -140,7 +139,7 @@ class OpportunityController extends Controller
             'title' => $validatedFields['title'],
             'category' => $validatedFields['category'],
             'description' => $validatedFields['description'],
-            'img_upload' => $validatedFields['img_upload'],
+            // 'img_upload' => $validatedFields['img_upload'],
         ]);
 
         return new OpportunityResource($this->loadRelationships($opportunity));

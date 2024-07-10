@@ -26,7 +26,7 @@ class UpdateOpportunityRequest extends FormRequest
             'title' => ['sometimes', 'min:6'],
             'category' => ['sometimes', 'string', 'in:job,internship,volunteer'],
             'description' => ['sometimes', 'min:60'],
-            'img_upload' => ['sometimes', 'string'],
+            // 'img_upload' => ['sometimes', 'string'],
         ];
     }
 }

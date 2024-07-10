@@ -30,7 +30,8 @@ class OpportunityPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->user_type === 'company';
+        // return true;
     }
 
     /**
